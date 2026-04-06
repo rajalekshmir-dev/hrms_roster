@@ -15,7 +15,7 @@ class AppColors {
 
   static const kBackgroundLightColor = Color(0xFFFFDBDB);
 
-  static const kDashboardBgColor = Color(0xFFF5F6F7);
+  static const kDashboardBgColor = Color(0xFFAEB3C1);
   static const kPagesPrimaryBgColor = Color(0x3BF04D4D);
 
   /// =======================
