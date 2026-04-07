@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constant/colors.dart';
+
 class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HRMSAppBar({super.key});
 
@@ -18,7 +20,7 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           /// Menu Icon
           IconButton(
-            icon: const Icon(Icons.menu, color: Color(0xFF1E3A5F)),
+            icon: Icon(Icons.menu, size: 30, color: AppColors.kHeadingColor),
             onPressed: () {},
           ),
 
@@ -28,9 +30,9 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
           const Text(
             "HRMS.AI",
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 32,
               fontWeight: FontWeight.bold,
-              color: Color(0xFF1E3A5F),
+              color: AppColors.kHeadingColor,
               letterSpacing: 1,
             ),
           ),
@@ -42,11 +44,16 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
             height: 40,
             width: 40,
             decoration: const BoxDecoration(
-              color: Color(0xFFF2F4F7),
               shape: BoxShape.circle,
+              color: Color(0xFFF2F4F7),
             ),
             child: IconButton(
-              icon: const Icon(Icons.search, size: 20),
+              icon: const Icon(
+                Icons.search,
+                size: 30,
+
+                color: AppColors.kHeadingColor,
+              ),
               onPressed: () {},
             ),
           ),
@@ -64,7 +71,12 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
-                  icon: const Icon(Icons.notifications_none, size: 20),
+                  icon: const Icon(
+                    Icons.notifications_none,
+                    size: 30,
+
+                    color: AppColors.kHeadingColor,
+                  ),
                   onPressed: () {},
                 ),
               ),

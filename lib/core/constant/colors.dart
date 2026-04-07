@@ -9,13 +9,15 @@ class AppColors {
   static const kHoverSecondaryColor = Color(0xFFFFE1E1);
 
   static const kLightColor = Color(0x3BF04D4D);
+  static const kHeadingColor = Color(0xFF1E3A5F);
+  static const kBorderColor = Color(0xFF4C6EDB);
 
   static const kPrimaryMediumColor = Color(0xFFED6669);
   static const kPrimaryLowColor = Color(0xFFE5AF78);
 
   static const kBackgroundLightColor = Color(0xFFFFDBDB);
 
-  static const kDashboardBgColor = Color(0xFFAEB3C1);
+  static const kDashboardBgColor = Color(0xFFEFEDED);
   static const kPagesPrimaryBgColor = Color(0x3BF04D4D);
 
   /// =======================
