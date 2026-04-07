@@ -26,6 +26,7 @@ class AppColors {
 
   static const kAssistantBaseStart = Color(0xFFFFF1E6);
   static const kAssistantBaseEnd = Color(0xFFFDD6D6);
+  static const kSkillsMatch = Color(0xFF2E452E);
 
   static const kAssistantGlowPrimary = Color(0x99FFB4B4);
   static const kAssistantGlowSecondary = Color(0x73FFDABE);
