@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hrms_roster/presentation/bloc/auth_bloc.dart';
+import 'package:hrms_roster/presentation/bloc/auth_state.dart';
+import 'package:hrms_roster/presentation/pages/login_page.dart';
 
+import 'core/di/injection.dart';
 import 'core/theme/app_theme.dart';
 import 'core/widgets/HRMSAppBar.dart';
-import 'core/widgets/common_drop_down.dart';
-import 'core/widgets/multi_select_dropdown.dart' show MultiSelectDropdown;
-import 'core/widgets/slider_menu_bar.dart';
+
+import 'features/search_info/presentation/bloc/search_bloc.dart';
 import 'features/search_info/presentation/search_view.dart';
-import 'features/search_info/presentation/widgets/EmployeeCard.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await init();
+  init();
   runApp(const MyApp());
 }
 
@@ -20,12 +22,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-
-      /// Apply your theme
-      theme: AppTheme.lightTheme,
+    return MultiBlocProvider(
+      providers: [
+        /// ✅ Provide AuthBloc here
+        BlocProvider(create: (_) => sl<AuthBloc>()),
+      ],
+      child: MaterialApp(
+        title: 'HRMS',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.lightTheme,
+        home: const AuthWrapper(),
+      ),
+    );
+  }
+}
 
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});
@@ -35,17 +45,13 @@ class AuthWrapper extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is Authenticated) {
-          return const HomePage();
+          return SearchAiQueryData();
         } else if (state is AuthLoading) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(AppColors.kPrimaryColor),
-              ),
-            ),
+            body: Center(child: CircularProgressIndicator()),
           );
         } else {
-          return const LoginPage();
+          return const HomePage();
         }
       },
     );
@@ -61,7 +67,7 @@ class HomePage extends StatelessWidget {
       appBar: HRMSAppBar(),
       body: BlocProvider(
         create: (_) => sl<EmployeeSearchBloc>(),
-        child: SearchAiQueryData(),
+        child: const SearchAiQueryData(),
       ),
     );
   }
