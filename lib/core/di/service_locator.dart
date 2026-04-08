@@ -5,12 +5,17 @@ import 'package:hrms_roster/features/search_info/data/respositories/search_repo_
 import 'package:hrms_roster/features/search_info/domain/repositories/search_repositories.dart';
 import 'package:hrms_roster/features/search_info/presentation/bloc/search_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  final prefs = await SharedPreferences.getInstance();
-  sl.registerLazySingleton(() => prefs);
+  // Register HTTP Client
+  sl.registerLazySingleton<http.Client>(() => http.Client());
+
+  // Register SharedPreferences
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
 
   /// BLoC
   sl.registerFactory(() => EmployeeSearchBloc(sl()));

@@ -47,6 +47,7 @@ dependencies:
   equatable: ^2.0.8
   shared_preferences:
   get_it: ^9.2.1
+  http:
 
 
 dev_dependencies:

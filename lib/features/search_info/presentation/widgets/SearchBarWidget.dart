@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hrms_roster/core/di/service_locator.dart';
+import 'package:hrms_roster/features/search_info/presentation/bloc/search_bloc.dart';
+
+import '../search_view.dart';
 
 class HRMSSearchBar extends StatelessWidget {
   final TextEditingController controller;
@@ -42,7 +47,12 @@ class HRMSSearchBar extends StatelessWidget {
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                 ),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  BlocProvider(
+                    create: (_) => sl<EmployeeSearchBloc>(),
+                    child: SearchAiQueryData(),
+                  );
+                },
               ),
             ),
 
