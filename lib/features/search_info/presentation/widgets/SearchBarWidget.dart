@@ -42,6 +42,7 @@ class HRMSSearchBar extends StatelessWidget {
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                 ),
+                onChanged: (value) {},
               ),
             ),
 

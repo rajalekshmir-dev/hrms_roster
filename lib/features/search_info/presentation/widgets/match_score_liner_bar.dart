@@ -6,34 +6,38 @@ class MatchScoreBar extends StatelessWidget {
 
   const MatchScoreBar({super.key, required this.label, required this.score});
 
+  Color getColor(int score) {
+    if (score >= 90) return Colors.green;
+    if (score >= 70) return Colors.orange;
+    return Colors.red;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// Title + percentage
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
-            Text(
-              "$score%",
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
-          ],
+          children: [Text(label), Text("$score%")],
         ),
 
         const SizedBox(height: 6),
 
-        /// Progress Bar
-        ClipRRect(
-          borderRadius: BorderRadius.circular(6),
-          child: LinearProgressIndicator(
-            value: score / 100,
-            minHeight: 8,
-            backgroundColor: Colors.grey.shade200,
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
-          ),
+        TweenAnimationBuilder(
+          duration: const Duration(milliseconds: 800),
+          tween: Tween(begin: 0.0, end: score / 100),
+          builder: (context, value, child) {
+            return ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: LinearProgressIndicator(
+                value: value,
+                minHeight: 8,
+                backgroundColor: Colors.grey.shade200,
+                valueColor: AlwaysStoppedAnimation(getColor(score)),
+              ),
+            );
+          },
         ),
       ],
     );

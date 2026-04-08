@@ -1,70 +1,44 @@
 import 'package:flutter/material.dart';
 
-/// =======================
-/// APP COLORS
-/// =======================
+import 'colors.dart';
 
-class AppColors {
-  AppColors._();
+class AppTextStyles {
+  AppTextStyles._();
 
-  /// -----------------------
-  /// PRIMARY BRAND COLORS
-  /// -----------------------
+  static const TextStyle title = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
+    color: AppColors.kHeadingColor,
+    letterSpacing: 0.3,
+  );
 
-  static const Color primary = Color(0xFFE22D30);
-  static const Color primarySoft = Color(0xFFF04D4D);
-  static const Color primaryHover = Color(0xFFB52226);
+  static const TextStyle subtitle = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: AppColors.kLightTextColor,
+  );
 
-  static const Color primaryLight = Color(0x3BF04D4D);
+  static const TextStyle body = TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
+    color: AppColors.kAssistantTextPrimary,
+  );
 
-  static const Color primaryMedium = Color(0xFFED6669);
-  static const Color primaryLow = Color(0xFFE5AF78);
+  static const TextStyle caption = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: AppColors.kAssistantTextSecondary,
+  );
 
-  /// -----------------------
-  /// BACKGROUND COLORS
-  /// -----------------------
+  static const TextStyle sectionTitle = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.w600,
+    color: AppColors.kHeadingColor,
+  );
 
-  static const Color dashboardBackground = Color(0xFFF5F6F7);
-  static const Color pageBackground = Color(0xFFFFDBDB);
-
-  static const Color pageOverlay = Color(0x3BF04D4D);
-
-  /// -----------------------
-  /// CARD & BORDER
-  /// -----------------------
-
-  static const Color card = Colors.white;
-  static const Color border = Color(0xFFE5E7EB);
-  static const Color divider = Color(0xFFE0E0E0);
-
-  /// -----------------------
-  /// TEXT COLORS
-  /// -----------------------
-
-  static const Color textPrimary = Color(0xFF2B1C1C);
-  static const Color textSecondary = Color(0xFF6B4A4A);
-
-  static const Color textLight = Colors.black54;
-  static const Color textWhite = Colors.white;
-
-  /// -----------------------
-  /// STATUS COLORS
-  /// -----------------------
-
-  static const Color success = Color(0xFF1F8F4C);
-  static const Color warning = Color(0xFFF59E0B);
-  static const Color error = Color(0xFFEF4444);
-
-  /// -----------------------
-  /// CHIP COLORS
-  /// -----------------------
-
-  static const Color chipBorder = Color(0xFFE22D30);
-  static const Color chipBackground = Color(0xFFFFF1F1);
-
-  /// -----------------------
-  /// SEARCH BAR
-  /// -----------------------
-
-  static const Color searchBackground = Colors.white;
+  static const TextStyle badgeText = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
+    color: AppColors.kDarkTextColor,
+  );
 }

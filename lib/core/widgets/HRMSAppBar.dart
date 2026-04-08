@@ -21,7 +21,18 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
           /// Menu Icon
           IconButton(
             icon: Icon(Icons.menu, size: 30, color: AppColors.kHeadingColor),
-            onPressed: () {},
+            onPressed: () {
+              IconButton(
+                icon: Icon(
+                  Icons.menu,
+                  size: 30,
+                  color: AppColors.kHeadingColor,
+                ),
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+              );
+            },
           ),
 
           const SizedBox(width: 8),

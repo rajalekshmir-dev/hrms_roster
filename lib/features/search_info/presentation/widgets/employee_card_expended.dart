@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constant/colors.dart';
+
 class ExpandableSkills extends StatefulWidget {
   final List<String> skills;
   final int initialCount;
@@ -34,7 +36,7 @@ class _ExpandableSkillsState extends State<ExpandableSkills> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue),
+                border: Border.all(color: AppColors.kBorderColor),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(skill, style: const TextStyle(fontSize: 12)),
