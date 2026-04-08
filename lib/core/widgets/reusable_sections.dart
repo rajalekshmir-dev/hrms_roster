@@ -1,62 +1,21 @@
-
+// lib/core/widgets/reusable_sections.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
-import 'package:hrms_roster/core/widgets/login_form.dart';
-import 'package:hrms_roster/features/auth/bloc/auth_bloc.dart';
 
+class LogoSection extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String badgeText;
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) => AuthBloc(),
-        child: const LoginView(),
-      ),
-    );
-  }
-}
-
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  const LogoSection({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    this.badgeText = 'HRMS.AI',
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white, 
-      child: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                               _buildLogoSection(),
-                const SizedBox(height: 60),
-                
-              
-                _buildWelcomeSection(),
-                const SizedBox(height: 32),
-                
-               
-                const LoginForm(),
-                
-                const SizedBox(height: 24),
-                
-                              _buildFooterText(),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildLogoSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -66,18 +25,18 @@ class LoginView extends StatelessWidget {
             color: AppColors.kPrimaryColor.withOpacity(0.1),
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Row(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(
+              const Icon(
                 Icons.auto_awesome,
                 size: 16,
                 color: AppColors.kPrimaryColor,
               ),
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               Text(
-                'HRMS.AI',
-                style: TextStyle(
+                badgeText,
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: AppColors.kPrimaryColor,
@@ -87,18 +46,18 @@ class LoginView extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        const Text(
-          'All-in-One HRMS Platform',
-          style: TextStyle(
+        Text(
+          title,
+          style: const TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.bold,
             color: Color(0xFF1A1A1A),
           ),
         ),
         const SizedBox(height: 8),
-        const Text(
-          'Onboard talent • Analyze data • Match candidates smartly',
-          style: TextStyle(
+        Text(
+          subtitle,
+          style: const TextStyle(
             fontSize: 13,
             color: Color(0xFF666666),
             height: 1.4,
@@ -107,23 +66,35 @@ class LoginView extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildWelcomeSection() {
-    return const Column(
+class WelcomeSection extends StatelessWidget {
+  final String title;
+  final String subtitle;
+
+  const WelcomeSection({
+    super.key,
+    required this.title,
+    required this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Welcome Back!',
-          style: TextStyle(
+          title,
+          style: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Color(0xFF1A1A1A),
           ),
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
-          'Please enter your details',
-          style: TextStyle(
+          subtitle,
+          style: const TextStyle(
             fontSize: 14,
             color: Color(0xFF666666),
           ),
@@ -131,8 +102,22 @@ class LoginView extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildFooterText() {
+class FooterSection extends StatelessWidget {
+  final String question;
+  final String actionText;
+  final VoidCallback onActionPressed;
+
+  const FooterSection({
+    super.key,
+    required this.question,
+    required this.actionText,
+    required this.onActionPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
@@ -145,25 +130,23 @@ class LoginView extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                "Don't have an account? ",
-                style: TextStyle(
+              Text(
+                question,
+                style: const TextStyle(
                   color: Color(0xFF666666),
                   fontSize: 13,
                 ),
               ),
               TextButton(
-                onPressed: () {
-                
-                },
+                onPressed: onActionPressed,
                 style: TextButton.styleFrom(
                   padding: EdgeInsets.zero,
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-                child: const Text(
-                  'Sign up',
-                  style: TextStyle(
+                child: Text(
+                  actionText,
+                  style: const TextStyle(
                     color: AppColors.kPrimaryColor,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,

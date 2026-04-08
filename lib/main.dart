@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
-import 'package:hrms_roster/features/auth/bloc/auth_bloc.dart';
-import 'package:hrms_roster/features/login_page.dart';
-
+import 'package:hrms_roster/presentation/bloc/auth_state.dart';
+import 'package:hrms_roster/presentation/pages/login_page.dart';
 import 'core/theme/app_theme.dart';
 import 'core/widgets/HRMSAppBar.dart';
 
@@ -34,8 +33,12 @@ import 'core/widgets/HRMSAppBar.dart';
 
 
 
+import 'core/di/injection.dart' as di;
+import 'presentation/bloc/auth_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  di.init(); 
   runApp(const MyApp());
 }
 
@@ -46,7 +49,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => di.sl<AuthBloc>()),
       ],
       child: MaterialApp(
         title: 'HRMS.AI',
@@ -54,7 +57,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         initialRoute: '/',
         routes: {
-          '/': (context) => const AuthWrapper(),
+           '/': (context) => const AuthWrapper(),
           '/login': (context) => const LoginPage(),
           '/home': (context) => const HomePage(),
         },
@@ -62,6 +65,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 class AuthWrapper extends StatelessWidget {
   const AuthWrapper({super.key});

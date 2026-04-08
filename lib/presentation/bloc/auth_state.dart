@@ -1,4 +1,5 @@
-part of 'auth_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:hrms_roster/domain/entities/user.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -12,20 +13,12 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class Authenticated extends AuthState {
-  final String username;
-  final bool rememberMe;
-  final String token;
-  final String tokenType;
+  final User user;
 
-  const Authenticated({
-    required this.username,
-    required this.rememberMe,
-    required this.token,
-    required this.tokenType,
-  });
+  const Authenticated({required this.user});
 
   @override
-  List<Object?> get props => [username, rememberMe, token, tokenType];
+  List<Object?> get props => [user];
 }
 
 class Unauthenticated extends AuthState {}
