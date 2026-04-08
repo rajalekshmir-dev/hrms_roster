@@ -8,8 +8,8 @@ class UserModel extends User {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json, {String? username}) {
-       String token = '';
-    
+    String token = '';
+
     if (json.containsKey('access_token')) {
       token = json['access_token'] ?? '';
     } else if (json.containsKey('token')) {
@@ -17,18 +17,17 @@ class UserModel extends User {
     } else if (json.containsKey('data') && json['data'] is Map) {
       token = json['data']['token'] ?? json['data']['access_token'] ?? '';
     }
-    
-   
+
     String tokenType = 'Bearer';
     if (json.containsKey('token_type')) {
       tokenType = json['token_type'] ?? 'Bearer';
     } else if (json.containsKey('type')) {
       tokenType = json['type'] ?? 'Bearer';
     }
-    
+
     print('Extracted Token: $token');
     print('Extracted TokenType: $tokenType');
-    
+
     return UserModel(
       username: username ?? json['username'] ?? json['user']['username'] ?? '',
       token: token,

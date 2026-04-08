@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import '../repositories/auth_repository.dart';
 
 class LogoutUseCase {

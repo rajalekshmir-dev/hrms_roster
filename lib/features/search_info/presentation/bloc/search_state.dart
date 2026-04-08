@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../data/models/search_info_model.dart';
 
 abstract class EmployeeSearchState extends Equatable {

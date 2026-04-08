@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/widgets/login_form.dart';
 import 'package:hrms_roster/core/widgets/reusable_sections.dart';
 import 'package:hrms_roster/presentation/bloc/auth_bloc.dart';
-import 'package:hrms_roster/core/di/injection.dart' as di;
+
+import '../../core/di/service_locator.dart';
+import '../../core/di/service_locator.dart' as di;
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -37,7 +39,8 @@ class LoginView extends StatelessWidget {
                 // Logo Section
                 const LogoSection(
                   title: 'All-in-One HRMS Platform',
-                  subtitle: 'Onboard talent • Analyze data • Match candidates smartly',
+                  subtitle:
+                      'Onboard talent • Analyze data • Match candidates smartly',
                   badgeText: 'HRMS.AI',
                 ),
                 const SizedBox(height: 60),
@@ -57,9 +60,7 @@ class LoginView extends StatelessWidget {
                 FooterSection(
                   question: "Don't have an account? ",
                   actionText: 'Sign up',
-                  onActionPressed: () {
-                   
-                  },
+                  onActionPressed: () {},
                 ),
               ],
             ),

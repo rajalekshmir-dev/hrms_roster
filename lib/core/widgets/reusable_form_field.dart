@@ -47,10 +47,7 @@ class ReusableFormField extends StatelessWidget {
           textInputAction: textInputAction,
           decoration: InputDecoration(
             hintText: hintText,
-            hintStyle: const TextStyle(
-              color: Color(0xFF999999),
-              fontSize: 14,
-            ),
+            hintStyle: const TextStyle(color: Color(0xFF999999), fontSize: 14),
             filled: true,
             fillColor: const Color(0xFFF5F5F5),
             border: OutlineInputBorder(

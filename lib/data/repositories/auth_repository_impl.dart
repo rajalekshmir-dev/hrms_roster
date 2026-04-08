@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:hrms_roster/core/error/exceptions.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../../domain/entities/user.dart';
-import '../datasources/auth_remote_datasource.dart';
-import '../datasources/auth_local_datasource.dart';
-import '../models/user_model.dart';
 
+import '../../domain/entities/user.dart';
+import '../../domain/repositories/auth_repository.dart';
+import '../datasources/auth_local_datasource.dart';
+import '../datasources/auth_remote_datasource.dart';
+import '../models/user_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -24,27 +24,29 @@ class AuthRepositoryImpl implements AuthRepository {
   }) async {
     try {
       print('Repository: Starting login for user: $username');
-      
+
       final response = await remoteDataSource.login(
         username: username,
         password: password,
       );
-      
+
       print('Repository: Raw response: $response');
-      
+
       // Check if response contains expected data
       if (response.isEmpty) {
         return Left(AuthFailure('Empty response from server'));
       }
-      
+
       final user = UserModel.fromJson(response, username: username);
-      
-      print('Repository: Created user: ${user.username}, Token exists: ${user.token.isNotEmpty}');
-      
+
+      print(
+        'Repository: Created user: ${user.username}, Token exists: ${user.token.isNotEmpty}',
+      );
+
       if (user.token.isEmpty) {
         return Left(AuthFailure('No token received from server'));
       }
-      
+
       if (rememberMe) {
         await localDataSource.saveAuthData(
           token: user.token,
@@ -54,7 +56,7 @@ class AuthRepositoryImpl implements AuthRepository {
         );
         print('Repository: Saved auth data locally');
       }
-      
+
       return Right(user);
     } on InvalidCredentialsException {
       print('Repository: Invalid credentials');
@@ -86,7 +88,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<Either<AuthFailure, User>> checkAuthStatus() async {
     try {
       final authData = await localDataSource.getAuthData();
-      
+
       if (authData != null) {
         final user = UserModel(
           username: authData['username'],
@@ -95,7 +97,7 @@ class AuthRepositoryImpl implements AuthRepository {
         );
         return Right(user);
       }
-      
+
       return Left(AuthFailure('Not authenticated'));
     } catch (e) {
       return Left(AuthFailure('Error checking auth status'));

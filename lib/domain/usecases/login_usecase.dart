@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
-import '../repositories/auth_repository.dart';
+
 import '../entities/user.dart';
+import '../repositories/auth_repository.dart';
 
 class LoginUseCase {
   final AuthRepository repository;
@@ -15,7 +16,7 @@ class LoginUseCase {
     if (username.isEmpty || password.isEmpty) {
       return Left(AuthFailure('Username and password cannot be empty'));
     }
-    
+
     return await repository.login(
       username: username,
       password: password,

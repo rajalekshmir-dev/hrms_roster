@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/text_style.dart';
-import 'package:hrms_roster/features/search_info/presentation/bloc/search_state.dart';
-import '../../data/models/search_info_model.dart';
 
-import '../bloc/search_bloc.dart';
+import '../../data/models/search_info_model.dart';
 import 'employee_card_expended.dart';
 import 'liner_graph.dart';
 import 'match_badge.dart';

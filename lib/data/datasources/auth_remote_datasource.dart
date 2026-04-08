@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+
 import 'package:hrms_roster/core/error/exceptions.dart';
 import 'package:http/http.dart' as http;
 
@@ -13,16 +14,18 @@ class AuthRemoteDataSource {
   }) async {
     try {
       final Uri url = Uri.parse('$baseUrl$loginEndpoint');
-      
+
       print('=== API REQUEST ===');
       print('URL: $url');
       print('Body: {"username": "$username", "password": "***"}');
 
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'username': username, 'password': password}),
-      ).timeout(const Duration(seconds: 30));
+      final response = await http
+          .post(
+            url,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'username': username, 'password': password}),
+          )
+          .timeout(const Duration(seconds: 30));
 
       print('=== API RESPONSE ===');
       print('Status Code: ${response.statusCode}');

@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import '../entities/user.dart';
 
 abstract class AuthRepository {
@@ -15,5 +16,6 @@ abstract class AuthRepository {
 
 class AuthFailure {
   final String message;
+
   AuthFailure(this.message);
 }
