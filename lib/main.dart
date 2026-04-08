@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hrms_roster/features/search_info/data/models/search_info_model.dart';
-import 'package:hrms_roster/features/search_info/presentation/bloc/search_bloc.dart';
-import 'package:hrms_roster/features/search_info/presentation/widgets/SearchBarWidget.dart';
 
-import 'core/di/service_locator.dart';
 import 'core/theme/app_theme.dart';
 import 'core/widgets/HRMSAppBar.dart';
 import 'core/widgets/common_drop_down.dart';
@@ -32,7 +27,27 @@ class MyApp extends StatelessWidget {
       /// Apply your theme
       theme: AppTheme.lightTheme,
 
-      home: const HomePage(),
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is Authenticated) {
+          return const HomePage();
+        } else if (state is AuthLoading) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(AppColors.kPrimaryColor),
+              ),
+            ),
+          );
+        } else {
+          return const LoginPage();
+        }
+      },
     );
   }
 }

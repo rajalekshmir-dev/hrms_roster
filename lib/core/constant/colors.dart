@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const kPrimaryColor = Color(0xFFE22D30);
-  static const kSoftColor = Color(0xFFF04D4D);
+  // static const kPrimaryColor = Color(0xFFE22D30);
+    static const kPrimaryColor = Color(0xFF1E40AF);
+  static const kSoftColor = Color(0xFFDCE7FF);
+  static const kGreyColor = Color(0xFFF5F6F7);
+  // static const kSoftColor = Color(0xFFF04D4D);
   static const kHoverColor = Color(0xFFB52226);
   static const kHoverSecondaryColor = Color(0xFFFFE1E1);
 
@@ -40,4 +43,7 @@ class AppColors {
 
   static const kLightTextColor = Colors.black54;
   static const kDarkTextColor = Colors.white;
+  static const Color error = Color(0xFFE53935);
+  static const Color success = Color(0xFF4CAF50);
 }
+
