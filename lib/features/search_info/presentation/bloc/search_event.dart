@@ -1,17 +1,21 @@
-import 'package:equatable/equatable.dart';
-
-abstract class EmployeeSearchEvent extends Equatable {
-  const EmployeeSearchEvent();
-
-  @override
-  List<Object?> get props => [];
-}
+abstract class EmployeeSearchEvent {}
 
 class SearchEmployeeEvent extends EmployeeSearchEvent {
   final String query;
 
-  const SearchEmployeeEvent(this.query);
+  SearchEmployeeEvent({required this.query});
+}
 
-  @override
-  List<Object?> get props => [query];
+class FilterEmployeesEvent extends EmployeeSearchEvent {
+  final String? department;
+  final String? experience;
+  final String? location;
+  final List<String>? techGroups;
+
+  FilterEmployeesEvent({
+    this.department,
+    this.experience,
+    this.location,
+    this.techGroups,
+  });
 }

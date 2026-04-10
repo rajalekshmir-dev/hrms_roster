@@ -4,7 +4,6 @@ import 'package:hrms_roster/core/widgets/login_form.dart';
 import 'package:hrms_roster/core/widgets/reusable_sections.dart';
 import 'package:hrms_roster/presentation/bloc/auth_bloc.dart';
 
-import '../../core/di/service_locator.dart';
 import '../../core/di/service_locator.dart' as di;
 
 class LoginPage extends StatelessWidget {

@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../models/search_info_model.dart';
 
 abstract class EmployeeLocalDataSource {
@@ -19,7 +17,7 @@ class EmployeeLocalDataSourceImpl implements EmployeeLocalDataSource {
 
   @override
   Future<void> cacheEmployees(EmployeeModel model) async {
-    final jsonString = jsonEncode(model);
+    final jsonString = jsonEncode(model.toJson());
 
     await sharedPreferences.setString(CACHE_KEY, jsonString);
   }
@@ -30,7 +28,6 @@ class EmployeeLocalDataSourceImpl implements EmployeeLocalDataSource {
 
     if (jsonString != null) {
       final decoded = jsonDecode(jsonString);
-
       return EmployeeModel.fromJson(decoded);
     }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/text_style.dart';
-
 import '../../data/models/search_info_model.dart';
 import 'employee_card_expended.dart';
 import 'liner_graph.dart';
@@ -69,7 +68,7 @@ class _EmployeeCardState extends State<EmployeeCard>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              employee.totalExp ?? '',
+                              employee.displayName ?? '',
                               style: AppTextStyles.title,
                             ),
                             Text(
@@ -146,9 +145,10 @@ class _EmployeeCardState extends State<EmployeeCard>
                   const SizedBox(height: 14),
 
                   MatchOverviewGraph(
-                    skill: 50,
-                    experience: 60,
-                    availability: 100,
+                    skill: employee.aiCriteria?.skill?.toInt() ?? 0,
+                    experience: employee.aiCriteria?.experience?.toInt() ?? 0,
+                    availability:
+                        employee.aiCriteria?.availability?.toInt() ?? 0,
                   ),
 
                   const SizedBox(height: 10),
@@ -174,19 +174,21 @@ class _EmployeeCardState extends State<EmployeeCard>
 
                               const SizedBox(height: 10),
 
-                              MatchScoreBar(label: "Skill Match", score: 90),
-
-                              const SizedBox(height: 10),
-
-                              MatchScoreBar(
-                                label: "Experience Match",
-                                score: 80,
-                              ),
-
-                              const SizedBox(height: 10),
-
-                              MatchScoreBar(label: "Availability", score: 100),
-
+                              // MatchScoreBar(
+                              //   label: "Skill Match",
+                              //   score: employee.aiScore ?? 0,
+                              // ),
+                              //
+                              // const SizedBox(height: 10),
+                              //
+                              // MatchScoreBar(
+                              //   label: "Experience Match",
+                              //   score: 80,
+                              // ),
+                              //
+                              // const SizedBox(height: 10),
+                              //
+                              // MatchScoreBar(label: "Availability", score: 100),
                               const SizedBox(height: 14),
 
                               const Text(
@@ -197,8 +199,7 @@ class _EmployeeCardState extends State<EmployeeCard>
                               const SizedBox(height: 4),
 
                               Text(
-                                "This candidate is highly suitable based on skills, "
-                                "availability and experience matching the project requirements.",
+                                employee.aiReason ?? '',
                                 style: TextStyle(color: Colors.grey.shade700),
                               ),
                             ],
@@ -209,7 +210,11 @@ class _EmployeeCardState extends State<EmployeeCard>
               ),
 
               /// MATCH BADGE
-              Positioned(right: 20, top: -14, child: MatchBadge(match: 98)),
+              Positioned(
+                right: 20,
+                top: -14,
+                child: MatchBadge(match: employee.aiScore ?? 0),
+              ),
             ],
           ),
         ),

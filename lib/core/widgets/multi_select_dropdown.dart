@@ -25,69 +25,138 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      backgroundColor: Colors.transparent,
       builder: (context) {
         return StatefulBuilder(
           builder: (context, setModalState) {
-            return Padding(
-              padding: const EdgeInsets.all(16),
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.65,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+              ),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(
-                    "Select Tech Group",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  /// drag handle
+                  const SizedBox(height: 10),
+                  Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
 
                   const SizedBox(height: 10),
 
-                  ...widget.items.map((item) {
-                    final selected = tempSelected.contains(item);
+                  /// header
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Text(
+                          widget.title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
 
-                    return CheckboxListTile(
-                      title: Text(item),
-                      value: selected,
-                      onChanged: (value) {
-                        setModalState(() {
-                          if (value == true) {
-                            tempSelected.add(item);
-                          } else {
-                            tempSelected.remove(item);
-                          }
-                        });
-                      },
-                    );
-                  }),
+                        const Spacer(),
+
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /// selected count
+                  if (tempSelected.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "${tempSelected.length} selected",
+                          style: TextStyle(
+                            color: Colors.blue.shade700,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
 
                   const SizedBox(height: 10),
 
-                  Row(
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          setState(() {
-                            selectedItems.clear();
-                          });
+                  /// list
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: widget.items.length,
+                      itemBuilder: (context, index) {
+                        final item = widget.items[index];
+                        final selected = tempSelected.contains(item);
 
-                          widget.onChanged(selectedItems);
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Clear"),
-                      ),
+                        return CheckboxListTile(
+                          title: Text(item),
+                          value: selected,
+                          activeColor: Colors.blue,
+                          onChanged: (value) {
+                            setModalState(() {
+                              if (value == true) {
+                                tempSelected.add(item);
+                              } else {
+                                tempSelected.remove(item);
+                              }
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ),
 
-                      const Spacer(),
+                  /// buttons
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 20),
+                    child: Row(
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedItems.clear();
+                            });
 
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            selectedItems = tempSelected;
-                          });
+                            widget.onChanged(selectedItems);
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Clear"),
+                        ),
 
-                          widget.onChanged(selectedItems);
-                          Navigator.pop(context);
-                        },
-                        child: const Text("Apply"),
-                      ),
-                    ],
+                        const Spacer(),
+
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 24,
+                              vertical: 12,
+                            ),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              selectedItems = tempSelected;
+                            });
+
+                            widget.onChanged(selectedItems);
+                            Navigator.pop(context);
+                          },
+                          child: const Text("Apply"),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),

@@ -5,7 +5,7 @@ import 'package:hrms_roster/core/error/exceptions.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRemoteDataSource {
-  static const String baseUrl = 'http://172.25.247.15:8000/api';
+  static const String baseUrl = 'https://roster.vvdnice.com/api';
   static const String loginEndpoint = '/login';
 
   Future<Map<String, dynamic>> login({

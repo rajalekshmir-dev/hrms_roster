@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import 'json_parser.dart';
+
 class EmployeeModel extends Equatable {
   EmployeeModel({
     required this.action,
@@ -24,18 +26,30 @@ class EmployeeModel extends Equatable {
   factory EmployeeModel.fromJson(Map<String, dynamic> json) {
     return EmployeeModel(
       action: json["action"],
-      ranking: json["ranking"],
+      ranking: json["ranking"] == true,
       response: json["response"],
-      data: json["data"] == null
-          ? []
-          : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
-      totalResults: json["total_results"],
+      data: (json["data"] as List<dynamic>? ?? [])
+          .map((e) => Datum.fromJson(e))
+          .toList(),
+      totalResults: JsonParser.toInt(json["total_results"]),
       parsedQuery: json["parsed_query"] == null
           ? null
           : ParsedQuery.fromJson(json["parsed_query"]),
-      processingTime: json["processing_time"],
-      employeeSearch: json["employee_search"],
+      processingTime: JsonParser.toDouble(json["processing_time"]),
+      employeeSearch: json["employee_search"] == true,
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "action": action,
+      "ranking": ranking,
+      "response": response,
+      "data": data.map((e) => e.toJson()).toList(),
+      "total_results": totalResults,
+      "parsed_query": parsedQuery,
+      "processing_time": processingTime,
+      "employee_search": employeeSearch,
+    };
   }
 
   @override
@@ -81,20 +95,20 @@ class Datum extends Equatable {
   final String? vvdnExp;
   final List<Project> projects;
   final String? rankedBy;
-  final int? aiScore;
+  final double? aiScore;
   final String? aiReason;
   final int? aiTier;
   final AiCriteria? aiCriteria;
 
   factory Datum.fromJson(Map<String, dynamic> json) {
     return Datum(
-      employeeId: json["employee_id"],
-      displayName: json["display_name"],
+      employeeId: json['employee_id'] ?? '',
+      displayName: json['display_name'] ?? '',
+      designation: json['designation'] ?? '',
       employeeDepartment: json["employee_department"],
       totalExp: json["total_exp"],
       skillSet: json["skill_set"],
       empLocation: json["emp_location"],
-      designation: json["designation"],
       techGroup: json["tech_group"],
       vvdnExp: json["vvdn_exp"],
       projects: json["projects"] == null
@@ -103,13 +117,32 @@ class Datum extends Equatable {
               json["projects"]!.map((x) => Project.fromJson(x)),
             ),
       rankedBy: json["ranked_by"],
-      aiScore: json["ai_score"],
+      aiScore: JsonParser.toDouble(json["ai_score"]),
       aiReason: json["ai_reason"],
       aiTier: json["ai_tier"],
       aiCriteria: json["ai_criteria"] == null
           ? null
           : AiCriteria.fromJson(json["ai_criteria"]),
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "employee_id": employeeId,
+      "display_name": displayName,
+      "employee_department": employeeDepartment,
+      "total_exp": totalExp,
+      "skill_set": skillSet,
+      "emp_location": empLocation,
+      "designation": designation,
+      "tech_group": techGroup,
+      "vvdn_exp": vvdnExp,
+      "projects": projects.map((e) => e.toJson()).toList(),
+      "ranked_by": rankedBy,
+      "ai_score": aiScore,
+      "ai_reason": aiReason,
+      "ai_tier": aiTier,
+      "ai_criteria": aiCriteria?.toJson(),
+    };
   }
 
   @override
@@ -139,16 +172,23 @@ class AiCriteria extends Equatable {
     required this.experience,
   });
 
-  final int? skill;
-  final int? availability;
-  final int? experience;
+  final double? skill;
+  final double? availability;
+  final double? experience;
 
   factory AiCriteria.fromJson(Map<String, dynamic> json) {
     return AiCriteria(
-      skill: json["Skill"],
-      availability: json["Availability"],
-      experience: json["Experience"],
+      skill: JsonParser.toDouble(json["Skill"]),
+      availability: JsonParser.toDouble(json["Availability"]),
+      experience: JsonParser.toDouble(json["Experience"]),
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "Skill": skill,
+      "Availability": availability,
+      "Experience": experience,
+    };
   }
 
   @override
@@ -182,11 +222,23 @@ class Project extends Equatable {
       customer: json["customer"],
       role: json["role"],
       deployment: json["deployment"],
-      occupancy: json["occupancy"],
+      occupancy: JsonParser.toInt(json["occupancy"]),
       projectIndustry: json["project_industry"],
       projectStatus: json["project_status"],
       projectJoinedDate: DateTime.tryParse(json["project_joined_date"] ?? ""),
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "project_name": projectName,
+      "customer": customer,
+      "role": role,
+      "deployment": deployment,
+      "occupancy": occupancy,
+      "project_industry": projectIndustry,
+      "project_status": projectStatus,
+      "project_joined_date": projectJoinedDate?.toIso8601String(),
+    };
   }
 
   @override
@@ -234,6 +286,16 @@ class ParsedQuery extends Equatable {
           ? []
           : List<String>.from(json["semantic_skills"]!.map((x) => x)),
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "skills": skills,
+      "context": context,
+      "skill_context_mode": skillContextMode,
+      "location": location,
+      "ranking": ranking,
+      "semantic_skills": semanticSkills,
+    };
   }
 
   @override

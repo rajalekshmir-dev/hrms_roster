@@ -5,9 +5,13 @@ import 'package:hrms_roster/core/widgets/reusable_button.dart';
 import 'package:hrms_roster/core/widgets/reusable_checkbox.dart';
 import 'package:hrms_roster/core/widgets/reusable_form_field.dart';
 import 'package:hrms_roster/core/widgets/reusable_password_field.dart';
+import 'package:hrms_roster/features/search_info/presentation/search_view.dart';
 import 'package:hrms_roster/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/presentation/bloc/auth_event.dart';
 import 'package:hrms_roster/presentation/bloc/auth_state.dart';
+
+import '../../features/search_info/presentation/bloc/search_bloc.dart';
+import '../di/service_locator.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -37,7 +41,16 @@ class _LoginFormState extends State<LoginForm> {
           _showSnackBar(context, message: state.message, isError: true);
         } else if (state is Authenticated) {
           _showSnackBar(context, message: 'Login successful!', isError: false);
-          Navigator.pushReplacementNamed(context, '/home');
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider(
+                create: (_) => sl<EmployeeSearchBloc>(),
+                child: const SearchAiQueryData(),
+              ),
+            ),
+          );
         }
       },
       builder: (context, state) {

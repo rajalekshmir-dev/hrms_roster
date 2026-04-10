@@ -31,13 +31,18 @@ Future<void> init() async {
 
   /// Repository
   sl.registerLazySingleton<EmployeeRepository>(
-    () => EmployeeRepositoryImpl(remoteDataSource: sl(), localDataSource: sl()),
+    () => EmployeeRepositoryImpl(
+      authLocalDataSource: sl(),
+      client: sl(),
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+    ),
   );
 
   /// Data Sources
   /// Remote DataSource
   sl.registerLazySingleton<EmployeeRemoteDataSource>(
-    () => EmployeeRemoteDataSourceImpl(client: sl()),
+    () => EmployeeRemoteDataSourceImpl(client: sl(), authLocalDataSource: sl()),
   );
 
   /// Local DataSource

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MatchBadge extends StatelessWidget {
-  final int match;
+  final double match;
 
   const MatchBadge({super.key, required this.match});
 

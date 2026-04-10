@@ -28,9 +28,7 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
                   size: 30,
                   color: AppColors.kHeadingColor,
                 ),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
+                onPressed: () {},
               );
             },
           ),

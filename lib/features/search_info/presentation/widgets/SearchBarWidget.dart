@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hrms_roster/core/di/service_locator.dart';
 import 'package:hrms_roster/features/search_info/presentation/bloc/search_bloc.dart';
 
-import '../search_view.dart';
+import '../bloc/search_event.dart';
 
 class HRMSSearchBar extends StatelessWidget {
   final TextEditingController controller;
@@ -39,18 +38,17 @@ class HRMSSearchBar extends StatelessWidget {
             /// text field
             Expanded(
               child: TextField(
-                // controller: widget.controller,
-                // focusNode: _focusNode,
+                controller: controller,
+
                 decoration: const InputDecoration(
                   hintText: "freepool in kochi",
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
                   focusedBorder: InputBorder.none,
                 ),
-                onChanged: (value) {
-                  BlocProvider(
-                    create: (_) => sl<EmployeeSearchBloc>(),
-                    child: SearchAiQueryData(),
+                onSubmitted: (value) {
+                  context.read<EmployeeSearchBloc>().add(
+                    SearchEmployeeEvent(query: value),
                   );
                 },
               ),
@@ -58,7 +56,13 @@ class HRMSSearchBar extends StatelessWidget {
 
             /// search button
             GestureDetector(
-              onTap: onSearch,
+              onTap: () {
+                print("SEARCH CLICK: ${controller.text}");
+
+                context.read<EmployeeSearchBloc>().add(
+                  SearchEmployeeEvent(query: controller.text),
+                );
+              },
               child: Container(
                 height: 52,
                 width: 60,
