@@ -10,68 +10,36 @@ import '../../../core/widgets/multi_select_dropdown.dart';
 import 'bloc/search_bloc.dart';
 import 'bloc/search_event.dart';
 
-class SearchAiQueryData extends StatelessWidget {
+class SearchAiQueryData extends StatefulWidget {
   const SearchAiQueryData({super.key});
+
+  @override
+  State<SearchAiQueryData> createState() => _SearchAiQueryDataState();
+}
+
+class _SearchAiQueryDataState extends State<SearchAiQueryData> {
+  final TextEditingController searchController = TextEditingController();
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HRMSAppBar(),
       body: Column(
         children: [
-          HRMSSearchBar(controller: TextEditingController(), onSearch: () {}),
-
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              // children: [
-              //   CommonDropdown(
-              //     title: "Department",
-              //     items: ["Mobile", "Backend", "AI"],
-              //     onChanged: (value) {
-              //       context.read<EmployeeSearchBloc>().add(
-              //         FilterEmployeesEvent(department: value),
-              //       );
-              //     },
-              //   ),
-              //
-              //   CommonDropdown(
-              //     title: "Experience",
-              //     items: ["0-2", "3-5", "6-10", "10+"],
-              //     onChanged: (value) {},
-              //   ),
-              //
-              //   CommonDropdown(
-              //     title: "Location",
-              //     items: ["Kochi", "Bangalore"],
-              //     onChanged: (value) {},
-              //   ),
-              //
-              //   MultiSelectDropdown(
-              //     title: "Tech Group",
-              //     items: ["Android", "iOS", "Flutter"],
-              //     onChanged: (values) {
-              //       context.read<EmployeeSearchBloc>().add(
-              //         FilterEmployeesEvent(techGroups: values),
-              //       );
-              //     },
-              //   ),
-              // ],
-            ),
-          ),
           Expanded(
             child: BlocBuilder<EmployeeSearchBloc, EmployeeSearchState>(
               builder: (context, state) {
                 if (state is EmployeeLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
-
                 if (state is EmployeeLoaded) {
                   final employees = state.employee.data;
-
                   return Column(
                     children: [
-                      /// FILTERS (HORIZONTAL SCROLL)
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(horizontal: 12),

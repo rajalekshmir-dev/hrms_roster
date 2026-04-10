@@ -10,6 +10,7 @@ import 'package:hrms_roster/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/presentation/bloc/auth_event.dart';
 import 'package:hrms_roster/presentation/bloc/auth_state.dart';
 
+import '../../features/hrms_shell/presentation/hrms_shell.dart';
 import '../../features/search_info/presentation/bloc/search_bloc.dart';
 import '../di/service_locator.dart';
 
@@ -47,7 +48,7 @@ class _LoginFormState extends State<LoginForm> {
             MaterialPageRoute(
               builder: (_) => BlocProvider(
                 create: (_) => sl<EmployeeSearchBloc>(),
-                child: const SearchAiQueryData(),
+                child: HRMSShell(),
               ),
             ),
           );

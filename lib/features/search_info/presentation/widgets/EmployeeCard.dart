@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/text_style.dart';
+
+import '../../../../core/widgets/common_card.dart';
 import '../../data/models/search_info_model.dart';
 import 'employee_card_expended.dart';
 import 'liner_graph.dart';
 import 'match_badge.dart';
-import 'match_score_liner_bar.dart';
 
 class EmployeeCard extends StatefulWidget {
   final Datum employee;
@@ -32,27 +33,7 @@ class _EmployeeCardState extends State<EmployeeCard>
         });
       },
       child: RepaintBoundary(
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 20,
-                spreadRadius: 1,
-                offset: const Offset(0, 8),
-              ),
-              BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
+        child: CommonAnimatedCard(
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -142,6 +123,7 @@ class _EmployeeCardState extends State<EmployeeCard>
                   const SizedBox(height: 6),
 
                   ExpandableSkills(skills: employee.skillSet?.split(",") ?? []),
+
                   const SizedBox(height: 14),
 
                   MatchOverviewGraph(
@@ -172,23 +154,6 @@ class _EmployeeCardState extends State<EmployeeCard>
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
 
-                              const SizedBox(height: 10),
-
-                              // MatchScoreBar(
-                              //   label: "Skill Match",
-                              //   score: employee.aiScore ?? 0,
-                              // ),
-                              //
-                              // const SizedBox(height: 10),
-                              //
-                              // MatchScoreBar(
-                              //   label: "Experience Match",
-                              //   score: 80,
-                              // ),
-                              //
-                              // const SizedBox(height: 10),
-                              //
-                              // MatchScoreBar(label: "Availability", score: 100),
                               const SizedBox(height: 14),
 
                               const Text(

@@ -14,6 +14,7 @@ import '../../domain/repositories/auth_repository.dart';
 import '../../domain/usecases/check_auth_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
+import '../../features/hrms_shell/presentation/bloc/hrms_navigation_bloc.dart';
 import '../../presentation/bloc/auth_bloc.dart';
 
 final sl = GetIt.instance;
@@ -58,7 +59,8 @@ Future<void> init() async {
       checkAuthUseCase: sl(),
     ),
   );
-
+  // navigation pages
+  sl.registerFactory(() => NavigationBloc());
   // Use Cases
   sl.registerLazySingleton(() => LoginUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));

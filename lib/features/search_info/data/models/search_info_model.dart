@@ -39,6 +39,7 @@ class EmployeeModel extends Equatable {
       employeeSearch: json["employee_search"] == true,
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       "action": action,
@@ -125,6 +126,7 @@ class Datum extends Equatable {
           : AiCriteria.fromJson(json["ai_criteria"]),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       "employee_id": employeeId,
@@ -183,6 +185,7 @@ class AiCriteria extends Equatable {
       experience: JsonParser.toDouble(json["Experience"]),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       "Skill": skill,
@@ -228,6 +231,7 @@ class Project extends Equatable {
       projectJoinedDate: DateTime.tryParse(json["project_joined_date"] ?? ""),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       "project_name": projectName,
@@ -287,6 +291,7 @@ class ParsedQuery extends Equatable {
           : List<String>.from(json["semantic_skills"]!.map((x) => x)),
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       "skills": skills,
