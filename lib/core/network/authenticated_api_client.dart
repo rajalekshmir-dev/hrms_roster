@@ -1,6 +1,7 @@
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:hrms_roster/data/datasources/auth_local_datasource.dart';
+import '../../features/login/data/datasources/auth_local_datasource.dart';
 import '../error/exceptions.dart';
 
 class AuthenticatedApiClient {
@@ -21,7 +22,14 @@ class AuthenticatedApiClient {
       final headers = await _getAuthHeaders();
       final url = Uri.parse('$baseUrl$endpoint');
       
+      print('=== AUTHENTICATED GET REQUEST ===');
+      print('URL: $url');
+      print('Headers: $headers');
+      
       final response = await http.get(url, headers: headers);
+      
+      print('Response Status: ${response.statusCode}');
+      print('Response Body: ${response.body}');
       
       if (response.statusCode == 401) {
         throw UnauthorizedException();
