@@ -19,7 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginRequested>(_onLoginRequested);
     on<LogoutRequested>(_onLogoutRequested);
     on<CheckAuthStatus>(_onCheckAuthStatus);
-    
+
     add(CheckAuthStatus());
   }
 
@@ -28,7 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     final result = await checkAuthUseCase.execute();
-    
+
     result.fold(
       (failure) => emit(Unauthenticated()),
       (user) => emit(Authenticated(user: user)),
@@ -40,13 +40,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(AuthLoading());
-    
+
     final result = await loginUseCase.execute(
       username: event.username,
       password: event.password,
       rememberMe: event.rememberMe,
     );
-    
+
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (user) => emit(Authenticated(user: user)),
@@ -61,4 +61,3 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(Unauthenticated());
   }
 }
-

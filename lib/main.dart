@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => di.sl<HomeBloc>()), 
       ],
       child: MaterialApp(
-        title: 'HRMS.AI',
+        title: 'HRMS',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         initialRoute: '/',

@@ -37,7 +37,8 @@ class LoginView extends StatelessWidget {
                 // Logo Section
                 const LogoSection(
                   title: 'All-in-One HRMS Platform',
-                  subtitle: 'Onboard talent • Analyze data • Match candidates smartly',
+                  subtitle:
+                      'Onboard talent • Analyze data • Match candidates smartly',
                   badgeText: 'HRMS.AI',
                 ),
                 const SizedBox(height: 60),
@@ -57,9 +58,7 @@ class LoginView extends StatelessWidget {
                 FooterSection(
                   question: "Don't have an account? ",
                   actionText: 'Sign up',
-                  onActionPressed: () {
-                   
-                  },
+                  onActionPressed: () {},
                 ),
               ],
             ),

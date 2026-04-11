@@ -94,10 +94,7 @@ class WelcomeSection extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           subtitle,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Color(0xFF666666),
-          ),
+          style: const TextStyle(fontSize: 14, color: Color(0xFF666666)),
         ),
       ],
     );
@@ -122,20 +119,14 @@ class FooterSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(
         children: [
-          const Divider(
-            color: Color(0xFFE0E0E0),
-            thickness: 1,
-          ),
+          const Divider(color: Color(0xFFE0E0E0), thickness: 1),
           const SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 question,
-                style: const TextStyle(
-                  color: Color(0xFF666666),
-                  fontSize: 13,
-                ),
+                style: const TextStyle(color: Color(0xFF666666), fontSize: 13),
               ),
               TextButton(
                 onPressed: onActionPressed,

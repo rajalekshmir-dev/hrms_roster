@@ -48,10 +48,7 @@ class _ReusablePasswordFieldState extends State<ReusablePasswordField> {
           textInputAction: widget.textInputAction,
           decoration: InputDecoration(
             hintText: widget.hintText,
-            hintStyle: const TextStyle(
-              color: Color(0xFF999999),
-              fontSize: 14,
-            ),
+            hintStyle: const TextStyle(color: Color(0xFF999999), fontSize: 14),
             filled: true,
             fillColor: const Color(0xFFF5F5F5),
             border: OutlineInputBorder(

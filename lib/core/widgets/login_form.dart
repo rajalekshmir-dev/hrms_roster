@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
+import 'package:hrms_roster/core/di/service_locator.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_event.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
@@ -8,6 +9,8 @@ import 'package:hrms_roster/core/widgets/reusable_form_field.dart';
 import 'package:hrms_roster/core/widgets/reusable_password_field.dart';
 import 'package:hrms_roster/core/widgets/reusable_checkbox.dart';
 import 'package:hrms_roster/core/widgets/hrms_button.dart';
+import 'package:hrms_roster/features/search_info/presentation/bloc/search_bloc.dart';
+import 'package:hrms_roster/features/search_info/presentation/search_view.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -43,10 +46,16 @@ class _LoginFormState extends State<LoginForm> {
           );
            Navigator.pushReplacementNamed(context, '/home');
         } else if (state is Authenticated) {
-          _showSnackBar(
+          _showSnackBar(context, message: 'Login successful!', isError: false);
+
+          Navigator.pushReplacement(
             context,
-            message: 'Login successful!',
-            isError: false,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider(
+                create: (_) => sl<EmployeeSearchBloc>(),
+                child: const SearchAiQueryData(),
+              ),
+            ),
           );
          
   // Navigator.pushReplacementNamed(context, '/home');
@@ -57,7 +66,7 @@ class _LoginFormState extends State<LoginForm> {
 
       builder: (context, state) {
         final isLoading = state is AuthLoading;
-        
+
         return Form(
           key: _formKey,
           child: Column(
@@ -108,9 +117,11 @@ class _LoginFormState extends State<LoginForm> {
                     },
                   ),
                   TextButton(
-                    onPressed: isLoading ? null : () {
-                      // TODO: Implement forgot password
-                    },
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            // TODO: Implement forgot password
+                          },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
                       minimumSize: Size.zero,
@@ -146,16 +157,17 @@ class _LoginFormState extends State<LoginForm> {
   void _handleLogin() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
-            LoginRequested(
-              username: _usernameController.text.trim(),
-              password: _passwordController.text,
-              rememberMe: _rememberMe,
-            ),
-          );
+        LoginRequested(
+          username: _usernameController.text.trim(),
+          password: _passwordController.text,
+          rememberMe: _rememberMe,
+        ),
+      );
     }
   }
 
-  void _showSnackBar(BuildContext context, {
+  void _showSnackBar(
+    BuildContext context, {
     required String message,
     required bool isError,
   }) {
@@ -169,19 +181,14 @@ class _LoginFormState extends State<LoginForm> {
             ),
             const SizedBox(width: 12),
             Expanded(
-              child: Text(
-                message,
-                style: const TextStyle(fontSize: 14),
-              ),
+              child: Text(message, style: const TextStyle(fontSize: 14)),
             ),
           ],
         ),
         backgroundColor: isError ? AppColors.error : AppColors.success,
         behavior: SnackBarBehavior.floating,
         duration: Duration(seconds: isError ? 3 : 2),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }

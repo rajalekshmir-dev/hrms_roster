@@ -43,7 +43,8 @@ class ReusableButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius),
           ),
           elevation: 0,
-          disabledBackgroundColor: (backgroundColor ?? AppColors.kPrimaryColor).withOpacity(0.6),
+          disabledBackgroundColor: (backgroundColor ?? AppColors.kPrimaryColor)
+              .withOpacity(0.6),
         ),
         child: isLoading
             ? SizedBox(
@@ -56,10 +57,7 @@ class ReusableButton extends StatelessWidget {
               )
             : Text(
                 text,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontWeight: fontWeight,
-                ),
+                style: TextStyle(fontSize: fontSize, fontWeight: fontWeight),
               ),
       ),
     );

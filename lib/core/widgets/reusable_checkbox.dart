@@ -37,10 +37,7 @@ class ReusableCheckbox extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 13,
-            color: Color(0xFF666666),
-          ),
+          style: const TextStyle(fontSize: 13, color: Color(0xFF666666)),
         ),
       ],
     );

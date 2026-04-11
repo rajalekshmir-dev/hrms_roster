@@ -20,11 +20,13 @@ class AuthRemoteDataSource {
       print('URL: $url');
       print('Body: {"username": "$username", "password": "***"}');
 
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'username': username, 'password': password}),
-      ).timeout(const Duration(seconds: 30));
+      final response = await http
+          .post(
+            url,
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode({'username': username, 'password': password}),
+          )
+          .timeout(const Duration(seconds: 30));
 
       print('=== API RESPONSE ===');
       print('Status Code: ${response.statusCode}');

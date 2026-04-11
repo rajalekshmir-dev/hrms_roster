@@ -17,9 +17,9 @@ class AuthLocalDataSource {
   Future<Map<String, dynamic>?> getAuthData() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('auth_token');
-    
+
     if (token == null) return null;
-    
+
     return {
       'token': token,
       'tokenType': prefs.getString('token_type') ?? 'Bearer',
@@ -36,8 +36,7 @@ class AuthLocalDataSource {
     await prefs.remove('remember_me');
   }
 
-
-   Future<String?> getToken() async {
+  Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('auth_token');
   }
@@ -50,15 +49,14 @@ class AuthLocalDataSource {
   Future<Map<String, String>> getAuthHeaders() async {
     final token = await getToken();
     final tokenType = await getTokenType();
-    
+
     if (token != null && token.isNotEmpty) {
       return {
         'Authorization': '$tokenType $token',
         'Content-Type': 'application/json',
       };
     }
-    
+
     return {'Content-Type': 'application/json'};
   }
-
 }
