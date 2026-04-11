@@ -14,8 +14,9 @@ class AuthRemoteDataSource {
     required String password,
   }) async {
     try {
-      final Uri url = Uri.parse('$AppConstants.baseUrl$AppConstants.loginEndpoint');
-      
+      final Uri url = Uri.parse(
+        '${AppConstants.baseUrl}${AppConstants.loginEndpoint}',
+      );
       print('=== API REQUEST ===');
       print('URL: $url');
       print('Body: {"username": "$username", "password": "***"}');

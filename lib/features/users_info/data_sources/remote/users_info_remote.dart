@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:hrms_roster/data/datasources/auth_local_datasource.dart';
+import '../../../login/data/datasources/auth_local_datasource.dart';
 import '../../data/model/user_info_model.dart';
 
 abstract class UserInfoRemoteDataSource {

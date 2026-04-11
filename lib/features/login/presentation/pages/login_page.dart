@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hrms_roster/core/di/service_locator.dart' show sl;
 import 'package:hrms_roster/core/widgets/login_form.dart';
 import 'package:hrms_roster/core/widgets/reusable_sections.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
-import 'package:hrms_roster/core/di/injection.dart' as di;
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (context) => di.sl<AuthBloc>(),
-        child: const LoginView(),
-      ),
+    return BlocProvider<AuthBloc>(
+      create: (_) => sl<AuthBloc>(),
+      child: const Scaffold(body: LoginView()),
     );
   }
 }
