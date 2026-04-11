@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
-
-import '../entities/user.dart';
+import 'package:hrms_roster/features/login/domain/entities/user.dart';
 
 abstract class AuthRepository {
   Future<Either<AuthFailure, User>> login({

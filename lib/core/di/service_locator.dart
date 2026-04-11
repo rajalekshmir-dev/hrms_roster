@@ -10,6 +10,7 @@ import '../../data/datasources/auth_local_datasource.dart';
 import '../../data/datasources/auth_remote_datasource.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../domain/repositories/auth_repository.dart';
+
 import '../../domain/usecases/check_auth_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
@@ -43,6 +44,7 @@ Future<void> init() async {
     ),
   );
 
+  /// Data Sources
   /// Remote DataSource
   sl.registerLazySingleton<EmployeeRemoteDataSource>(
     () => EmployeeRemoteDataSourceImpl(client: sl(), authLocalDataSource: sl()),

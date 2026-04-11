@@ -1,10 +1,9 @@
-
 import 'package:dartz/dartz.dart';
-import 'package:hrms_roster/core/error/failures.dart';
 import 'package:hrms_roster/features/Home/domain/entities/directory_contact.dart';
-import 'package:hrms_roster/features/Home/domain/repositories/home_repository.dart';
+import '../../../../core/error/failures.dart';
+import '../repositories/home_repository.dart';
 
-class GetEmployeeDirectory {  
+class GetEmployeeDirectory {
   final HomeRepository repository;
 
   GetEmployeeDirectory(this.repository);

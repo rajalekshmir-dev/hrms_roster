@@ -1,11 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:hrms_roster/core/error/exceptions.dart';
-
-import '../../domain/entities/user.dart';
+import 'package:hrms_roster/features/login/data/datasources/auth_local_datasource.dart';
+import 'package:hrms_roster/features/login/data/datasources/auth_remote_datasource.dart';
+import 'package:hrms_roster/features/login/data/models/user_model.dart';
+import 'package:hrms_roster/features/login/domain/entities/user.dart';
 import '../../domain/repositories/auth_repository.dart';
-import '../datasources/auth_local_datasource.dart';
-import '../datasources/auth_remote_datasource.dart';
-import '../models/user_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;

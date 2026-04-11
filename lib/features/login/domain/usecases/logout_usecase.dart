@@ -1,0 +1,13 @@
+import 'package:dartz/dartz.dart';
+import 'package:hrms_roster/core/error/failures.dart';
+import '../repositories/auth_repository.dart';
+
+class LogoutUseCase {
+  final AuthRepository repository;
+
+  LogoutUseCase(this.repository);
+
+  Future<Either<Failure, Unit>> execute() async {
+    return await repository.logout();
+  }
+}
