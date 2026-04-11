@@ -6,6 +6,7 @@ import 'package:hrms_roster/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/presentation/pages/login_page.dart';
 
 import 'features/hrms_shell/presentation/bloc/hrms_navigation_bloc.dart';
+import 'features/users_info/presentation/bloc/users_info_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthBloc>(create: (_) => sl<AuthBloc>()),
 
         BlocProvider<NavigationBloc>(create: (_) => sl<NavigationBloc>()),
+        BlocProvider<UserInfoBloc>(create: (_) => sl<UserInfoBloc>()),
       ],
       child: MaterialApp(
         title: 'HRMS',
