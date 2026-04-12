@@ -46,6 +46,21 @@ class _UserInfoPageState extends State<UserInfoPage> {
               if (state is UserInfoLoaded) {
                 final users = state.users;
 
+                /// NO DATA CASE
+                if (users.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      "No Data Found",
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  );
+                }
+
+                /// USER LIST
                 return ListView.builder(
                   itemCount: users.length,
                   itemBuilder: (context, index) {

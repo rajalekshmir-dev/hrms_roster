@@ -38,6 +38,20 @@ class _SearchAiQueryDataState extends State<SearchAiQueryData> {
                 }
                 if (state is EmployeeLoaded) {
                   final employees = state.employee.data;
+
+                  /// NO DATA CASE
+                  if (employees.isEmpty) {
+                    return const Center(
+                      child: Text(
+                        "No Data Found",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    );
+                  }
                   return Column(
                     children: [
                       SingleChildScrollView(

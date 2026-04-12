@@ -5,7 +5,7 @@ import '../bloc/search_event.dart';
 
 class HRMSSearchBar extends StatefulWidget {
   final TextEditingController controller;
-  final VoidCallback onSearch;
+  final Function(String) onSearch;
 
   const HRMSSearchBar({
     super.key,

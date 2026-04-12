@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/di/service_locator.dart';
 import 'package:hrms_roster/core/theme/app_theme.dart';
 
+import 'core/di/service_locator.dart' as di;
+import 'features/Home/presentation/bloc/home_bloc.dart';
 import 'features/hrms_shell/presentation/bloc/hrms_navigation_bloc.dart';
 import 'features/login/presentation/bloc/auth_bloc.dart';
 import 'features/login/presentation/pages/login_page.dart';
+import 'features/search_info/presentation/bloc/search_bloc.dart';
 import 'features/users_info/presentation/bloc/users_info_bloc.dart';
 
 Future<void> main() async {
@@ -22,9 +25,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthBloc>(create: (_) => sl<AuthBloc>()),
-        BlocProvider<NavigationBloc>(create: (_) => sl<NavigationBloc>()),
-        BlocProvider<UserInfoBloc>(create: (_) => sl<UserInfoBloc>()),
+        BlocProvider(create: (_) => di.sl<AuthBloc>()),
+        BlocProvider(create: (_) => di.sl<NavigationBloc>()),
+        BlocProvider(create: (_) => di.sl<UserInfoBloc>()),
+        BlocProvider(create: (_) => di.sl<HomeBloc>()),
+
+        // ✅ ADD THIS
+        BlocProvider(create: (_) => di.sl<EmployeeSearchBloc>()),
       ],
       child: MaterialApp(
         title: 'HRMS',

@@ -10,10 +10,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthBloc>(
-      create: (_) => sl<AuthBloc>(),
-      child: const Scaffold(body: LoginView()),
-    );
+    return const Scaffold(body: LoginView());
   }
 }
 
