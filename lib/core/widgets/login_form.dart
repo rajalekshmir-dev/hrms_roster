@@ -44,7 +44,7 @@ class _LoginFormState extends State<LoginForm> {
             message: state.message,
             isError: true,
           );
-           Navigator.pushReplacementNamed(context, '/home');
+        
         } else if (state is Authenticated) {
           _showSnackBar(context, message: 'Login successful!', isError: false);
 
@@ -58,7 +58,7 @@ class _LoginFormState extends State<LoginForm> {
             ),
           );
          
-  // Navigator.pushReplacementNamed(context, '/home');
+  Navigator.pushReplacementNamed(context, '/home');
 
         }
       },
