@@ -30,8 +30,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6F7),
-      appBar: const HRMSAppBar(),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state.status == HomeStatus.loading) {
@@ -121,14 +119,6 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           );
-        },
-      ),
-      bottomNavigationBar: HRMSBottomNavBar(
-        currentIndex: _selectedBottomIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedBottomIndex = index;
-          });
         },
       ),
     );

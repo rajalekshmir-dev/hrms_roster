@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/features/Home/presentation/view/Home_page.dart';
-
 import '../../../core/widgets/HRMSAppBar.dart';
+import '../../../core/widgets/hrms_bottom_nav_bar.dart';
 import '../../search_info/presentation/bloc/search_bloc.dart';
 import '../../search_info/presentation/bloc/search_event.dart';
 import '../../search_info/presentation/bloc/search_state.dart';
@@ -57,24 +57,14 @@ class HRMSShell extends StatelessWidget {
           ],
         ),
 
+        /// ✅ REPLACED WITH COMMON BOTTOM NAV BAR
         bottomNavigationBar: BlocBuilder<NavigationBloc, NavigationState>(
           builder: (context, state) {
-            return BottomNavigationBar(
+            return HRMSBottomNavBar(
               currentIndex: state.currentIndex,
               onTap: (index) {
                 context.read<NavigationBloc>().add(ChangePageEvent(index));
               },
-              items: const [
-                BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.people),
-                  label: "Users",
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  label: "Search..",
-                ),
-              ],
             );
           },
         ),
