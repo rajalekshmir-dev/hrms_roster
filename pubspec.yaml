@@ -51,6 +51,7 @@ dependencies:
   dartz: ^0.10.1
   animated_text_kit: ^4.3.0
   jni_flutter: ^1.0.1
+  google_fonts: ^8.0.2
 
 
 dev_dependencies:

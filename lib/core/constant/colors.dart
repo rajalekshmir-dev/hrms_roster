@@ -16,10 +16,10 @@ class AppColors {
   static const kHeadingColor = Color(0xFF1E3A5F);
   static const kBorderColor = Color(0xFF4C6EDB);
 
-  static const kPrimaryMediumColor = Color(0xFFED6669);
-  static const kPrimaryLowColor = Color(0xFFE5AF78);
+  // static const kPrimaryMediumColor = Color(0xFFED6669);
+  // static const kPrimaryLowColor = Color(0xFFE5AF78);
 
-  static const kBackgroundLightColor = Color(0xFFFFDBDB);
+  static const kBackgroundLightColor = Color(0xFFFFFFFF);
 
   static const kDashboardBgColor = Color(0xFFEFEDED);
   static const kPagesPrimaryBgColor = Color(0x3BF04D4D);
@@ -29,10 +29,10 @@ class AppColors {
   /// =======================
 
   static const kAssistantBaseStart = Color(0xFFFFF1E6);
-  static const kAssistantBaseEnd = Color(0xFFFDD6D6);
+  // static const kAssistantBaseEnd = Color(0xFFFDD6D6);
   static const kSkillsMatch = Color(0xFF2E452E);
 
-  static const kAssistantGlowPrimary = Color(0x99FFB4B4);
+  // static const kAssistantGlowPrimary = Color(0x99FFB4B4);
   static const kAssistantGlowSecondary = Color(0x73FFDABE);
 
   static const kAssistantTextPrimary = Color(0xFF2B1C1C);

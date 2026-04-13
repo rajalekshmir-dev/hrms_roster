@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hrms_roster/features/search_info/presentation/bloc/search_bloc.dart';
-
+import '../bloc/search_bloc.dart';
 import '../bloc/search_event.dart';
 
 class HRMSSearchBar extends StatefulWidget {
@@ -33,13 +32,12 @@ class _HRMSSearchBarState extends State<HRMSSearchBar>
 
     startTyping();
 
-    /// border animation
     _borderController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 2),
     )..repeat(reverse: true);
 
-    _borderAnimation = Tween<double>(begin: 0.4, end: 1.0).animate(
+    _borderAnimation = Tween<double>(begin: 0.3, end: 1.0).animate(
       CurvedAnimation(parent: _borderController, curve: Curves.easeInOut),
     );
   }
@@ -65,82 +63,118 @@ class _HRMSSearchBarState extends State<HRMSSearchBar>
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
+    final primary = theme.colorScheme.primary;
+    final surface = theme.colorScheme.surface;
+
     return AnimatedBuilder(
       animation: _borderAnimation,
       builder: (context, child) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+
           child: Container(
             height: 52,
+
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: surface,
+
               borderRadius: BorderRadius.circular(30),
+
+              /// 🌗 Animated border glow
               border: Border.all(
-                color: const Color(
-                  0xFF4C6EDB,
-                ).withOpacity(_borderAnimation.value),
+                color: primary.withOpacity(_borderAnimation.value * 0.6),
                 width: 1.5,
               ),
+
+              /// 🌗 Adaptive shadow
               boxShadow: [
                 BoxShadow(
-                  color: const Color(
-                    0xFF4C6EDB,
-                  ).withOpacity(_borderAnimation.value * 0.4),
+                  color: isDark
+                      ? Colors.black.withOpacity(0.4)
+                      : primary.withOpacity(_borderAnimation.value * 0.2),
                   blurRadius: 12,
                   spreadRadius: 1,
                 ),
               ],
             ),
+
             child: Row(
               children: [
                 const SizedBox(width: 16),
-                const Icon(Icons.search, color: Colors.grey),
+
+                Icon(
+                  Icons.search,
+                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                ),
+
                 const SizedBox(width: 8),
 
-                /// TextField
+                /// TEXT FIELD
                 Expanded(
-                  child: TextField(
-                    controller: widget.controller,
-                    decoration: InputDecoration(
-                      hintText: hintText,
-                      hintStyle: TextStyle(
-                        color: Colors.grey.shade500,
-                        fontSize: 14,
+                  child: Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      TextField(
+                        controller: widget.controller,
+
+                        style: TextStyle(color: theme.colorScheme.onSurface),
+
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          isCollapsed: true,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+
+                        cursorColor: theme.colorScheme.primary,
                       ),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      focusedErrorBorder: InputBorder.none,
-                      isCollapsed: true,
-                      contentPadding: EdgeInsets.zero,
-                    ),
-                    onSubmitted: (value) {
-                      context.read<EmployeeSearchBloc>().add(
-                        SearchEmployeeEvent(query: value),
-                      );
-                    },
+
+                      /// 👇 Animated hint overlay
+                      IgnorePointer(
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 200),
+                          child: widget.controller.text.isEmpty
+                              ? Text(
+                                  hintText,
+                                  key: ValueKey(hintText),
+                                  style: TextStyle(
+                                    color: theme.colorScheme.onSurface
+                                        .withOpacity(0.5),
+                                    fontSize: 14,
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
-                /// search button
+                /// SEARCH BUTTON
                 GestureDetector(
                   onTap: () {
                     context.read<EmployeeSearchBloc>().add(
                       SearchEmployeeEvent(query: widget.controller.text),
                     );
                   },
+
                   child: Container(
                     height: 52,
                     width: 60,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF2E4DA7),
-                      borderRadius: BorderRadius.only(
+
+                    decoration: BoxDecoration(
+                      color: primary,
+
+                      borderRadius: const BorderRadius.only(
                         topRight: Radius.circular(30),
                         bottomRight: Radius.circular(30),
                       ),
                     ),
+
                     child: const Icon(Icons.search, color: Colors.white),
                   ),
                 ),
