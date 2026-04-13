@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
 import 'package:hrms_roster/features/Home/domain/entities/department.dart';
 
-
-
 class ProjectDistributionCard extends StatelessWidget {
   final List<Department> departments;
   final int totalEmployees;
-  
+
   const ProjectDistributionCard({
     super.key,
     required this.departments,
     required this.totalEmployees,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -67,54 +65,58 @@ class ProjectDistributionCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(
-                child: _buildDepartmentList(),
-              ),
+              Expanded(child: _buildDepartmentList()),
             ],
           ),
         ],
       ),
     );
   }
-  
+
   Widget _buildDepartmentList() {
     return Column(
-      children: departments.map((dept) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Row(
-            children: [
-              Container(
-                width: (dept.percentage * 0.8).clamp(20.0, 80.0),
-                height: 8,
-                decoration: BoxDecoration(
-                  color: _getColorForDepartment(dept.name),
-                  borderRadius: BorderRadius.circular(4),
-                ),
+      children: departments
+          .map((dept) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Row(
+                children: [
+                  Container(
+                    width: (dept.percentage * 0.8).clamp(20.0, 80.0),
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: _getColorForDepartment(dept.name),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      dept.name,
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Color(0xFF64748B),
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    '${dept.count}',
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF1E293B),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  dept.name,
-                  style: const TextStyle(fontSize: 10, color: Color(0xFF64748B)),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              Text(
-                '${dept.count}',
-                style: const TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF1E293B),
-                ),
-              ),
-            ],
-          ),
-        );
-      }).take(5).toList(),
+            );
+          })
+          .take(5)
+          .toList(),
     );
   }
-  
+
   Color _getColorForDepartment(String name) {
     switch (name.toLowerCase()) {
       case 'engineering':

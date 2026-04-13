@@ -1,10 +1,10 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:hrms_roster/features/Home/domain/entities/department.dart';
+
 import '../../../../core/error/failures.dart';
 import '../repositories/home_repository.dart';
 
-class GetDepartmentStats {  
+class GetDepartmentStats {
   final HomeRepository repository;
 
   GetDepartmentStats(this.repository);

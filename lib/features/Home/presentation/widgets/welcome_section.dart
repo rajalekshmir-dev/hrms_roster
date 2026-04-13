@@ -19,10 +19,7 @@ class WelcomeSection extends StatelessWidget {
         SizedBox(height: 4),
         Text(
           'Great talent awaits. Let\'s hire smart!',
-          style: TextStyle(
-            fontSize: 14,
-            color: Color(0xFF64748B),
-          ),
+          style: TextStyle(fontSize: 14, color: Color(0xFF64748B)),
         ),
       ],
     );

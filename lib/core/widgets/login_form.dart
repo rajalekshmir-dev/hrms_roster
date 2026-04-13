@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
-import 'package:hrms_roster/core/di/service_locator.dart';
+import 'package:hrms_roster/core/widgets/hrms_button.dart';
+import 'package:hrms_roster/core/widgets/reusable_checkbox.dart';
+import 'package:hrms_roster/core/widgets/reusable_form_field.dart';
+import 'package:hrms_roster/core/widgets/reusable_password_field.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_event.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
-import 'package:hrms_roster/core/widgets/reusable_form_field.dart';
-import 'package:hrms_roster/core/widgets/reusable_password_field.dart';
-import 'package:hrms_roster/core/widgets/reusable_checkbox.dart';
-import 'package:hrms_roster/core/widgets/hrms_button.dart';
-import 'package:hrms_roster/features/search_info/presentation/bloc/search_bloc.dart';
-import 'package:hrms_roster/features/search_info/presentation/search_view.dart';
 
 import '../../features/hrms_shell/presentation/hrms_shell.dart';
 

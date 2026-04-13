@@ -1,10 +1,12 @@
 import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/model/user_info_model.dart';
 
 abstract class UserInfoLocalDataSource {
   Future<void> cacheUserInfo(UserInfoModel model);
+
   Future<UserInfoModel?> getCachedUserInfo();
 }
 

@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/features/Home/presentation/view/Home_page.dart';
 
-import '../../../core/di/injection.dart';
-import '../../../core/di/service_locator.dart';
 import '../../../core/widgets/HRMSAppBar.dart';
-import '../../Home/presentation/bloc/home_bloc.dart';
 import '../../search_info/presentation/bloc/search_bloc.dart';
 import '../../search_info/presentation/bloc/search_event.dart';
 import '../../search_info/presentation/bloc/search_state.dart';
 import '../../search_info/presentation/search_view.dart';
 import '../../search_info/presentation/widgets/SearchBarWidget.dart';
-import '../../users_info/presentation/bloc/users_info_bloc.dart';
-import '../../users_info/presentation/bloc/users_info_event.dart';
 import '../../users_info/presentation/users_info_view.dart';
 import 'bloc/hrms_navigation_bloc.dart';
 import 'bloc/hrms_navigation_event.dart';
@@ -23,11 +18,7 @@ class HRMSShell extends StatelessWidget {
 
   final TextEditingController searchController = TextEditingController();
 
-  final pages = [
-    BlocProvider(create: (_) => sl<HomeBloc>(), child: HomePage()),
-    UserInfoPage(),
-    SearchAiQueryData(),
-  ];
+  final pages = [HomePage(), UserInfoPage(), SearchAiQueryData()];
 
   @override
   Widget build(BuildContext context) {

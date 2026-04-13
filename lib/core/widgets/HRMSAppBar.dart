@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../features/theme/bloc/theme_bloc.dart';
+import '../../features/theme/bloc/theme_event.dart';
 import '../constant/colors.dart';
 
 class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -57,13 +59,10 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Color(0xFFF2F4F7),
             ),
             child: IconButton(
-              icon: const Icon(
-                Icons.search,
-                size: 30,
-
-                color: AppColors.kHeadingColor,
-              ),
-              onPressed: () {},
+              icon: const Icon(Icons.brightness_6, size: 30),
+              onPressed: () {
+                context.read<ThemeBloc>().add(ToggleTheme());
+              },
             ),
           ),
 

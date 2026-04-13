@@ -2,8 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:hrms_roster/features/Home/domain/entities/department.dart';
 import 'package:hrms_roster/features/Home/domain/entities/directory_contact.dart';
 
-
-
 enum HomeStatus { initial, loading, loaded, error }
 
 class HomeState extends Equatable {
@@ -14,7 +12,7 @@ class HomeState extends Equatable {
   final String searchQuery;
   final String? errorMessage;
   final int totalEmployees;
-  
+
   const HomeState({
     this.status = HomeStatus.initial,
     this.directoryContacts = const [],
@@ -24,7 +22,7 @@ class HomeState extends Equatable {
     this.errorMessage,
     this.totalEmployees = 0,
   });
-  
+
   HomeState copyWith({
     HomeStatus? status,
     List<DirectoryContact>? directoryContacts,
@@ -44,11 +42,11 @@ class HomeState extends Equatable {
       totalEmployees: totalEmployees ?? this.totalEmployees,
     );
   }
-  
+
   List<DirectoryContact> get displayContacts {
     return searchQuery.isNotEmpty ? filteredContacts : directoryContacts;
   }
-  
+
   @override
   List<Object?> get props => [
     status,

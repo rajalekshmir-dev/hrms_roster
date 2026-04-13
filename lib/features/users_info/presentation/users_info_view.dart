@@ -48,12 +48,14 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
                 /// NO DATA CASE
                 if (users.isEmpty) {
-                  return const Center(
+                  return Center(
                     child: Text(
                       "No Data Found",
                       style: TextStyle(
                         fontSize: 16,
-                        color: Colors.grey,
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withOpacity(0.6),
                         fontWeight: FontWeight.w500,
                       ),
                     ),

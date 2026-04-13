@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hrms_roster/core/di/service_locator.dart' show sl;
 import 'package:hrms_roster/core/widgets/login_form.dart';
 import 'package:hrms_roster/core/widgets/reusable_sections.dart';
-import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});

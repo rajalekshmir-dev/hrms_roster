@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/features/search_info/presentation/bloc/search_state.dart';
 import 'package:hrms_roster/features/search_info/presentation/widgets/EmployeeCard.dart';
-import 'package:hrms_roster/features/search_info/presentation/widgets/SearchBarWidget.dart';
 
-import '../../../core/widgets/HRMSAppBar.dart';
 import '../../../core/widgets/common_drop_down.dart';
 import '../../../core/widgets/multi_select_dropdown.dart';
 import 'bloc/search_bloc.dart';
@@ -19,6 +17,7 @@ class SearchAiQueryData extends StatefulWidget {
 
 class _SearchAiQueryDataState extends State<SearchAiQueryData> {
   final TextEditingController searchController = TextEditingController();
+
   @override
   void dispose() {
     searchController.dispose();

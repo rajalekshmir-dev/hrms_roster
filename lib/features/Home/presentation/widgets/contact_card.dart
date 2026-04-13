@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
 import 'package:hrms_roster/features/Home/domain/entities/directory_contact.dart';
 
-
 class ContactCard extends StatelessWidget {
   final DirectoryContact contact;
-  
+
   const ContactCard({super.key, required this.contact});
-  
+
   @override
   Widget build(BuildContext context) {
     final isOccupancy = contact.location == '1/100';
-    
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -70,7 +69,10 @@ class ContactCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 if (isOccupancy)
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.kPrimaryColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),
@@ -87,7 +89,11 @@ class ContactCard extends StatelessWidget {
                 else
                   Row(
                     children: [
-                      const Icon(Icons.location_on, size: 12, color: Color(0xFF94A3B8)),
+                      const Icon(
+                        Icons.location_on,
+                        size: 12,
+                        color: Color(0xFF94A3B8),
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         contact.location,
@@ -101,15 +107,12 @@ class ContactCard extends StatelessWidget {
               ],
             ),
           ),
-          Icon(
-            Icons.chevron_right,
-            color: Colors.grey.shade400,
-          ),
+          Icon(Icons.chevron_right, color: Colors.grey.shade400),
         ],
       ),
     );
   }
-  
+
   String _getInitials(String name) {
     final parts = name.trim().split(' ');
     if (parts.isEmpty) return '?';

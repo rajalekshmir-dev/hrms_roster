@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/widgets/common_card.dart';
 
 class UserInfoCard extends StatelessWidget {

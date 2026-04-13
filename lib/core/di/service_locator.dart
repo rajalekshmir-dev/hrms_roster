@@ -12,6 +12,11 @@ import '../../features/Home/domain/usecases/get_department_stats.dart';
 import '../../features/Home/presentation/bloc/home_bloc.dart';
 
 /// =============================
+/// NAVIGATION
+/// =============================
+import '../../features/hrms_shell/presentation/bloc/hrms_navigation_bloc.dart';
+
+/// =============================
 /// AUTH
 /// =============================
 import '../../features/login/data/datasources/auth_local_datasource.dart';
@@ -24,19 +29,6 @@ import '../../features/login/domain/usecases/logout_usecase.dart';
 import '../../features/login/presentation/bloc/auth_bloc.dart';
 
 /// =============================
-/// NAVIGATION
-/// =============================
-import '../../features/hrms_shell/presentation/bloc/hrms_navigation_bloc.dart';
-
-/// =============================
-/// USERS INFO
-/// =============================
-import '../../features/users_info/data_sources/remote/users_info_remote.dart';
-import '../../features/users_info/data/repositories/user_info_implementation.dart';
-import '../../features/users_info/domain/repository/users_info_repositories.dart';
-import '../../features/users_info/presentation/bloc/users_info_bloc.dart';
-
-/// =============================
 /// SEARCH
 /// =============================
 import '../../features/search_info/data/data_sources/local/search_local_data_source.dart';
@@ -44,6 +36,16 @@ import '../../features/search_info/data/data_sources/remote/search_remote_data_s
 import '../../features/search_info/data/respositories/search_repo_impl.dart';
 import '../../features/search_info/domain/repositories/search_repositories.dart';
 import '../../features/search_info/presentation/bloc/search_bloc.dart';
+import '../../features/theme/bloc/theme_bloc.dart' show ThemeBloc;
+import '../../features/theme/repository/theme_repo.dart';
+import '../../features/users_info/data/repositories/user_info_implementation.dart';
+
+/// =============================
+/// USERS INFO
+/// =============================
+import '../../features/users_info/data_sources/remote/users_info_remote.dart';
+import '../../features/users_info/domain/repository/users_info_repositories.dart';
+import '../../features/users_info/presentation/bloc/users_info_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -152,4 +154,8 @@ Future<void> init() async {
   sl.registerFactory(
     () => HomeBloc(getDepartmentStats: sl(), getEmployeeDirectory: sl()),
   );
+
+  sl.registerLazySingleton(() => ThemeRepository());
+
+  sl.registerFactory(() => ThemeBloc(sl<ThemeRepository>()));
 }

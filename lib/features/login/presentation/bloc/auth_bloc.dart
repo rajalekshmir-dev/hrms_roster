@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_event.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
+
+import '../../domain/usecases/check_auth_usecase.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/logout_usecase.dart';
-import '../../domain/usecases/check_auth_usecase.dart';
-
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase loginUseCase;

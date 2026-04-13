@@ -5,6 +5,7 @@ import 'package:hrms_roster/core/widgets/reusable_sections.dart';
 import 'package:hrms_roster/features/Home/presentation/widgets/contact_card.dart';
 import 'package:hrms_roster/features/Home/presentation/widgets/project_distribution_card.dart';
 import 'package:hrms_roster/features/Home/presentation/widgets/stat_card.dart';
+
 import '../../../../core/widgets/hrms_bottom_nav_bar.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    context.read<HomeBloc>().add( LoadHomeData());
+    context.read<HomeBloc>().add(LoadHomeData());
   }
 
   @override
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: () {
-                      context.read<HomeBloc>().add( LoadHomeData());
+                      context.read<HomeBloc>().add(LoadHomeData());
                     },
                     child: const Text('Retry'),
                   ),
@@ -62,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const WelcomeSection(title: "",subtitle: "",),
+                const WelcomeSection(title: "", subtitle: ""),
                 const SizedBox(height: 20),
                 const Text(
                   'Search widgets...',

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
 
-
 class HRMSBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
@@ -22,7 +21,10 @@ class HRMSBottomNavBar extends StatelessWidget {
       onTap: onTap,
       selectedItemColor: AppColors.kPrimaryColor,
       unselectedItemColor: Colors.grey.shade600,
-      selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600, fontSize: 12),
+      selectedLabelStyle: const TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
+      ),
       unselectedLabelStyle: const TextStyle(fontSize: 12),
       items: const [
         BottomNavigationBarItem(
@@ -40,7 +42,6 @@ class HRMSBottomNavBar extends StatelessWidget {
           activeIcon: Icon(Icons.insert_chart),
           label: 'Schedule',
         ),
-       
       ],
     );
   }
