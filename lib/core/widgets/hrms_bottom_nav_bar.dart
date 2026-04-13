@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
 
-class HRMSBottomNavBar extends StatefulWidget {
+class HRMSBottomNavBar extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
 
@@ -12,95 +12,83 @@ class HRMSBottomNavBar extends StatefulWidget {
   });
 
   @override
-  State<HRMSBottomNavBar> createState() => _HRMSBottomNavBarState();
-}
-
-class _HRMSBottomNavBarState extends State<HRMSBottomNavBar>
-    with SingleTickerProviderStateMixin {
-  final List<_NavItem> items = const [
-    _NavItem(Icons.home_outlined, Icons.home, "Home"),
-    _NavItem(Icons.people_outline, Icons.people, "Users"),
-    _NavItem(Icons.insert_chart_outlined, Icons.insert_chart, "Schedule"),
-  ];
-
-  @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+      margin: const EdgeInsets.only(left: 18, right: 18, bottom: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
-        borderRadius: BorderRadius.circular(24),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(40), // 🔥 oval shape
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.08),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
           ),
         ],
-        border: Border.all(color: Colors.grey.withOpacity(0.1)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(items.length, (index) {
-          final isSelected = widget.currentIndex == index;
-          final item = items[index];
-
-          return Expanded(
-            child: GestureDetector(
-              onTap: () => widget.onTap(index),
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 350),
-                curve: Curves.easeOutCubic,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? AppColors.kPrimaryColor.withOpacity(0.12)
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedScale(
-                      duration: const Duration(milliseconds: 250),
-                      scale: isSelected ? 1.2 : 1.0,
-                      child: Icon(
-                        isSelected ? item.activeIcon : item.icon,
-                        color: isSelected
-                            ? AppColors.kPrimaryColor
-                            : Colors.grey.shade600,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    AnimatedDefaultTextStyle(
-                      duration: const Duration(milliseconds: 250),
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: isSelected
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                        color: isSelected
-                            ? AppColors.kPrimaryColor
-                            : Colors.grey.shade600,
-                      ),
-                      child: Text(item.label),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }),
+        children: [
+          _navItem(0, Icons.home_outlined, Icons.home, "Home"),
+          _navItem(1, Icons.people_outline, Icons.people, "Users"),
+          _navItem(
+            2,
+            Icons.insert_chart_outlined,
+            Icons.insert_chart,
+            "Schedule",
+          ),
+        ],
       ),
     );
   }
-}
 
-class _NavItem {
-  final IconData icon;
-  final IconData activeIcon;
-  final String label;
+  Widget _navItem(int index, IconData icon, IconData activeIcon, String label) {
+    final isActive = currentIndex == index;
 
-  const _NavItem(this.icon, this.activeIcon, this.label);
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => onTap(index),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          curve: Curves.easeOut,
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          decoration: BoxDecoration(
+            color: isActive
+                ? AppColors.kPrimaryColor.withOpacity(0.12)
+                : Colors.transparent,
+            borderRadius: BorderRadius.circular(30), // 🔥 pill inside item
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AnimatedScale(
+                duration: const Duration(milliseconds: 200),
+                scale: isActive ? 1.15 : 1.0,
+                child: Icon(
+                  isActive ? activeIcon : icon,
+                  size: 24,
+                  color: isActive
+                      ? AppColors.kPrimaryColor
+                      : Colors.grey.shade600,
+                ),
+              ),
+              const SizedBox(height: 3),
+              AnimatedDefaultTextStyle(
+                duration: const Duration(milliseconds: 200),
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
+                  color: isActive
+                      ? AppColors.kPrimaryColor
+                      : Colors.grey.shade600,
+                ),
+                child: Text(label),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
