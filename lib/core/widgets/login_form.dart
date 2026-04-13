@@ -1,16 +1,15 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
-import 'package:hrms_roster/core/di/service_locator.dart';
+import 'package:hrms_roster/core/widgets/hrms_button.dart';
+import 'package:hrms_roster/core/widgets/reusable_checkbox.dart';
+import 'package:hrms_roster/core/widgets/username_field.dart';
+import 'package:hrms_roster/core/widgets/reusable_password_field.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_event.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
-import 'package:hrms_roster/core/widgets/reusable_form_field.dart';
-import 'package:hrms_roster/core/widgets/reusable_password_field.dart';
-import 'package:hrms_roster/core/widgets/reusable_checkbox.dart';
-import 'package:hrms_roster/core/widgets/hrms_button.dart';
-import 'package:hrms_roster/features/search_info/presentation/bloc/search_bloc.dart';
-import 'package:hrms_roster/features/search_info/presentation/search_view.dart';
+import 'package:hrms_roster/features/hrms_shell/presentation/hrms_shell.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -36,34 +35,19 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-
-
         if (state is AuthError) {
-          _showSnackBar(
-            context,
-            message: state.message,
-            isError: true,
-          );
-        
+          _showSnackBar(context, message: state.message, isError: true);
+       
         } else if (state is Authenticated) {
           _showSnackBar(context, message: 'Login successful!', isError: false);
-
+          
+        
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(
-              builder: (_) => BlocProvider(
-                create: (_) => sl<EmployeeSearchBloc>(),
-                child: const SearchAiQueryData(),
-              ),
-            ),
+            MaterialPageRoute(builder: (_) =>  HRMSShell()),
           );
-         
-  Navigator.pushReplacementNamed(context, '/home');
-
         }
       },
-
-
       builder: (context, state) {
         final isLoading = state is AuthLoading;
 
@@ -73,7 +57,7 @@ class _LoginFormState extends State<LoginForm> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Username Field
-              ReusableFormField(
+              UserNameField(
                 label: 'Username',
                 hintText: 'Enter your username',
                 controller: _usernameController,
@@ -141,7 +125,7 @@ class _LoginFormState extends State<LoginForm> {
               const SizedBox(height: 32),
 
               // Login Button
-              ReusableButton(
+              HrmsButton(
                 text: 'Login →',
                 onPressed: _handleLogin,
                 isLoading: isLoading,

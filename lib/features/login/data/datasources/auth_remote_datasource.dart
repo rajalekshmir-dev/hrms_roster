@@ -6,15 +6,18 @@ import 'package:http/http.dart' as http;
 
 class AuthRemoteDataSource {
   
-  Future<Map<String, dynamic>> login({
-    required String username,
-    required String password,
-  }) async {
-    try {
-      final Uri url = Uri.parse('$AppConstants.baseUrl$AppConstants.loginEndpoint');
-      
-      print('=== API REQUEST ===');
-      print('URL: $url');
+Future<Map<String, dynamic>> login({
+  required String username,
+  required String password,
+}) async {
+  try {
+  
+    final String baseUrl = '${AppConstants.baseUrl}${AppConstants.loginEndpoint}';
+    final Uri url = Uri.parse(baseUrl);
+    
+    print('=== API REQUEST ===');
+    print('URL: $url');
+  
       print('Body: {"username": "$username", "password": "***"}');
 
       final response = await http

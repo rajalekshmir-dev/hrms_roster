@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:hrms_roster/core/error/failures.dart';
-import '../repositories/auth_repository.dart';
+import 'package:hrms_roster/features/login/domain/repositories/auth_repository.dart';
+
 import '../entities/user.dart';
 
 
@@ -9,7 +10,7 @@ class LoginUseCase {
 
   LoginUseCase(this.repository);
 
-  Future<Either<Failure, User>> execute({  
+  Future<Either<Failure, User>> execute({
     required String username,
     required String password,
     required bool rememberMe,

@@ -18,11 +18,6 @@ class DepartmentModel extends Department {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'count': count,
-      'id': id,
-      'percentage': percentage,
-    };
+    return {'name': name, 'count': count, 'id': id, 'percentage': percentage};
   }
 }

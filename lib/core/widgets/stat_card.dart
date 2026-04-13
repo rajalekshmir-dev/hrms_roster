@@ -4,14 +4,14 @@ class StatCard extends StatelessWidget {
   final String label;
   final String value;
   final Color backgroundColor;
-  
+
   const StatCard({
     super.key,
     required this.label,
     required this.value,
     required this.backgroundColor,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,10 +43,7 @@ class StatCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             'of total',
-            style: TextStyle(
-              fontSize: 11,
-              color: Colors.grey.shade500,
-            ),
+            style: TextStyle(fontSize: 11, color: Colors.grey.shade500),
           ),
         ],
       ),
