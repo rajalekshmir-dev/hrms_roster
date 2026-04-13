@@ -9,6 +9,7 @@ import '../../features/Home/data/datasources/home_remote_datasource.dart';
 import '../../features/Home/data/repositories/home_repository_impl.dart';
 import '../../features/Home/domain/repositories/home_repository.dart';
 import '../../features/Home/domain/usecases/get_department_stats.dart';
+import '../../features/Home/domain/usecases/get_employee_directory_usecase.dart';
 import '../../features/Home/presentation/bloc/home_bloc.dart';
 
 /// =============================
@@ -46,27 +47,37 @@ import '../../features/users_info/data/repositories/user_info_implementation.dar
 import '../../features/users_info/data_sources/remote/users_info_remote.dart';
 import '../../features/users_info/domain/repository/users_info_repositories.dart';
 import '../../features/users_info/presentation/bloc/users_info_bloc.dart';
+import '../network/authenticated_api_client.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  /// =====================================
-  /// EXTERNAL DEPENDENCIES
-  /// =====================================
-
+  /// =============================
+  /// EXTERNAL
+  /// =============================
   final sharedPreferences = await SharedPreferences.getInstance();
 
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
 
-  /// =====================================
-  /// DATA SOURCES
-  /// =====================================
-
-  /// AUTH
-  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource());
+  /// =============================
+  /// DATA SOURCES (REGISTER FIRST)
+  /// =============================
 
   sl.registerLazySingleton<AuthLocalDataSource>(() => AuthLocalDataSource());
+
+  sl.registerLazySingleton<AuthRemoteDataSource>(() => AuthRemoteDataSource());
+
+  /// =============================
+  /// CORE CLIENT (AFTER AUTH LOCAL DATA SOURCE)
+  /// =============================
+
+  sl.registerLazySingleton<AuthenticatedApiClient>(
+    () => AuthenticatedApiClient(
+      localDataSource: sl<AuthLocalDataSource>(),
+      baseUrl: '',
+    ),
+  );
 
   /// USERS
   sl.registerLazySingleton<UserInfoRemoteDataSource>(
@@ -87,21 +98,18 @@ Future<void> init() async {
     () => HomeRemoteDataSourceImpl(authenticatedClient: sl()),
   );
 
-  /// =====================================
+  /// =============================
   /// REPOSITORIES
-  /// =====================================
+  /// =============================
 
-  /// AUTH
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(remoteDataSource: sl(), localDataSource: sl()),
   );
 
-  /// USERS
   sl.registerLazySingleton<UserInfoRepository>(
     () => UserInfoRepositoryImpl(remoteDataSource: sl()),
   );
 
-  /// SEARCH
   sl.registerLazySingleton<EmployeeRepository>(
     () => EmployeeRepositoryImpl(
       authLocalDataSource: sl(),
@@ -111,28 +119,24 @@ Future<void> init() async {
     ),
   );
 
-  /// HOME
   sl.registerLazySingleton<HomeRepository>(
     () => HomeRepositoryImpl(remoteDataSource: sl()),
   );
 
-  /// =====================================
-  /// USE CASES
-  /// =====================================
+  /// =============================
+  /// USE CASES (NO DUPLICATES)
+  /// =============================
 
-  /// AUTH
   sl.registerLazySingleton(() => LoginUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
   sl.registerLazySingleton(() => CheckAuthUseCase(sl()));
-
-  /// HOME
   sl.registerLazySingleton(() => GetDepartmentStats(sl()));
+  sl.registerLazySingleton(() => GetEmployeeDirectory(sl()));
 
-  /// =====================================
+  /// =============================
   /// BLOCS
-  /// =====================================
+  /// =============================
 
-  /// AUTH
   sl.registerFactory(
     () => AuthBloc(
       loginUseCase: sl(),
@@ -141,21 +145,18 @@ Future<void> init() async {
     ),
   );
 
-  /// NAVIGATION
-  sl.registerFactory(() => NavigationBloc());
-
-  /// USERS
-  sl.registerFactory(() => UserInfoBloc(sl()));
-
-  /// SEARCH
-  sl.registerFactory(() => EmployeeSearchBloc(sl()));
-
-  /// HOME
   sl.registerFactory(
-    () => HomeBloc(getDepartmentStats: sl(), getEmployeeDirectory: sl()),
+    () => HomeBloc(getEmployeeDirectory: sl(), getDepartmentStats: sl()),
   );
 
-  sl.registerLazySingleton(() => ThemeRepository());
+  sl.registerFactory(() => NavigationBloc());
+  sl.registerFactory(() => UserInfoBloc(sl()));
+  sl.registerFactory(() => EmployeeSearchBloc(sl()));
 
-  sl.registerFactory(() => ThemeBloc(sl<ThemeRepository>()));
+  /// =============================
+  /// THEME
+  /// =============================
+
+  sl.registerLazySingleton(() => ThemeRepository());
+  sl.registerFactory(() => ThemeBloc(sl()));
 }
