@@ -4,7 +4,10 @@ import 'package:hrms_roster/features/Home/data/models/dashboard_count_model.dart
 import 'package:hrms_roster/features/Home/data/models/directory_contact_model.dart';
 
 abstract class HomeRemoteDataSource {
-  Future<List<DirectoryContactModel>> getEmployeeDirectory();
+  Future<List<DirectoryContactModel>> getEmployeeDirectory({
+    int page = 1,
+    int limit = 20,
+  });
   Future<DashboardCountModel> getDashboardCount();
 }
 
@@ -14,30 +17,37 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   HomeRemoteDataSourceImpl({required this.authenticatedClient});
 
   @override
-  Future<List<DirectoryContactModel>> getEmployeeDirectory() async {
+  Future<List<DirectoryContactModel>> getEmployeeDirectory({
+    int page = 1,
+    int limit = 20,
+  }) async {
     try {
+      
       final response = await authenticatedClient.get(
-        '/dashboard/employee_directory',
+        '/dashboard/employee_directory?page=$page&limit=$limit',
       );
 
       print('=== API RESPONSE DEBUG ===');
       print('Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
+      print('Page: $page, Limit: $limit');
 
       if (response.statusCode == 200) {
         final dynamic responseData = jsonDecode(response.body);
         List<DirectoryContactModel> employees = [];
 
         if (responseData is Map<String, dynamic>) {
-          if (responseData.containsKey('employees') && responseData['employees'] is List) {
-            employees = (responseData['employees'] as List)
-                .map((json) => DirectoryContactModel.fromJson(json))
-                .toList();
-          } else if (responseData.containsKey('data') && responseData['data'] is List) {
+          if (responseData.containsKey('data') &&
+              responseData['data'] is List) {
             employees = (responseData['data'] as List)
                 .map((json) => DirectoryContactModel.fromJson(json))
                 .toList();
-          } else if (responseData.containsKey('results') && responseData['results'] is List) {
+          } else if (responseData.containsKey('employees') &&
+              responseData['employees'] is List) {
+            employees = (responseData['employees'] as List)
+                .map((json) => DirectoryContactModel.fromJson(json))
+                .toList();
+          } else if (responseData.containsKey('results') &&
+              responseData['results'] is List) {
             employees = (responseData['results'] as List)
                 .map((json) => DirectoryContactModel.fromJson(json))
                 .toList();
@@ -48,7 +58,22 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
               .toList();
         }
 
-        print('Parsed ${employees.length} employees');
+        print('Parsed ${employees.length} employees for page $page');
+
+   
+        if (employees.length > limit && page > 1) {
+          final startIndex = (page - 1) * limit;
+          final endIndex = startIndex + limit;
+          if (startIndex < employees.length) {
+            employees = employees.sublist(
+              startIndex,
+              endIndex > employees.length ? employees.length : endIndex,
+            );
+          } else {
+            employees = [];
+          }
+        }
+
         return employees;
       } else if (response.statusCode == 401) {
         throw Exception('Unauthorized');
@@ -66,13 +91,10 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<DashboardCountModel> getDashboardCount() async {
     try {
-      final response = await authenticatedClient.get(
-        '/dashboard/count_data',
-      );
+      final response = await authenticatedClient.get('/dashboard/count_data');
 
       print('=== DASHBOARD COUNT API RESPONSE ===');
       print('Status Code: ${response.statusCode}');
-      print('Response Body: ${response.body}');
 
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
@@ -80,7 +102,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       } else if (response.statusCode == 401) {
         throw Exception('Unauthorized');
       } else {
-        throw Exception('Failed to load dashboard count: ${response.statusCode}');
+        throw Exception(
+          'Failed to load dashboard count: ${response.statusCode}',
+        );
       }
     } catch (e) {
       print('Error fetching dashboard count: $e');

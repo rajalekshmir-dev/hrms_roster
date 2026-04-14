@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
 import 'package:hrms_roster/core/widgets/hrms_button.dart';
 import 'package:hrms_roster/core/widgets/reusable_checkbox.dart';
-import 'package:hrms_roster/core/widgets/username_field.dart';
 import 'package:hrms_roster/core/widgets/reusable_password_field.dart';
+import 'package:hrms_roster/core/widgets/username_field.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_event.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
-import 'package:hrms_roster/features/hrms_shell/presentation/hrms_shell.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -23,6 +23,31 @@ class _LoginFormState extends State<LoginForm> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _rememberMe = false;
+  bool _isLoadingCredentials = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedCredentials();
+  }
+
+  Future<void> _loadSavedCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedUsername = prefs.getString('saved_username');
+    final savedPassword = prefs.getString('saved_password');
+    final rememberMe = prefs.getBool('remember_me') ?? false;
+
+    if (mounted) {
+      setState(() {
+        _rememberMe = rememberMe;
+        if (savedUsername != null && savedPassword != null && rememberMe) {
+          _usernameController.text = savedUsername;
+          _passwordController.text = savedPassword;
+        }
+        _isLoadingCredentials = false;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -33,19 +58,23 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoadingCredentials) {
+      return const Center(
+        child: SizedBox(
+          height: 200,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      );
+    }
+
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthError) {
           _showSnackBar(context, message: state.message, isError: true);
-       
         } else if (state is Authenticated) {
           _showSnackBar(context, message: 'Login successful!', isError: false);
-          
-        
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) =>  HRMSShell()),
-          );
         }
       },
       builder: (context, state) {
@@ -97,6 +126,11 @@ class _LoginFormState extends State<LoginForm> {
                     onChanged: (value) {
                       setState(() {
                         _rememberMe = value ?? false;
+                        
+                        // If unchecking remember me, clear saved credentials
+                        if (!_rememberMe) {
+                          _clearSavedCredentials();
+                        }
                       });
                     },
                   ),
@@ -104,7 +138,7 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: isLoading
                         ? null
                         : () {
-                            // TODO: Implement forgot password
+                            _showForgotPasswordDialog(context);
                           },
                     style: TextButton.styleFrom(
                       padding: EdgeInsets.zero,
@@ -138,16 +172,56 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  void _handleLogin() {
+  void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
+      final username = _usernameController.text.trim();
+      final password = _passwordController.text;
+      
+      // Save credentials if remember me is checked
+      if (_rememberMe) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('saved_username', username);
+        await prefs.setString('saved_password', password);
+        await prefs.setBool('remember_me', true);
+      } else {
+        await _clearSavedCredentials();
+      }
+      
       context.read<AuthBloc>().add(
         LoginRequested(
-          username: _usernameController.text.trim(),
-          password: _passwordController.text,
+          username: username,
+          password: password,
           rememberMe: _rememberMe,
         ),
       );
     }
+  }
+
+  Future<void> _clearSavedCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('saved_username');
+    await prefs.remove('saved_password');
+    await prefs.setBool('remember_me', false);
+  }
+
+  void _showForgotPasswordDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Forgot Password?'),
+          content: const Text(
+            'Please contact your system administrator to reset your password.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showSnackBar(

@@ -1,6 +1,6 @@
+
 import 'package:dartz/dartz.dart';
 import 'package:hrms_roster/features/Home/domain/entities/directory_contact.dart';
-
 import '../../../../core/error/failures.dart';
 import '../repositories/home_repository.dart';
 
@@ -9,7 +9,10 @@ class GetEmployeeDirectory {
 
   GetEmployeeDirectory(this.repository);
 
-  Future<Either<Failure, List<DirectoryContact>>> call() async {
-    return await repository.getEmployeeDirectory();
+  Future<Either<Failure, List<DirectoryContact>>> call({
+    int page = 1,
+    int limit = 20,
+  }) async {
+    return await repository.getEmployeeDirectory(page: page, limit: limit);
   }
 }

@@ -11,6 +11,15 @@ class LoadHomeData extends HomeEvent {}
 
 class RefreshHomeData extends HomeEvent {}
 
+class GoToPage extends HomeEvent {
+  final int page;
+
+  const GoToPage(this.page);
+
+  @override
+  List<Object> get props => [page];
+}
+
 class SearchEmployees extends HomeEvent {
   final String query;
 

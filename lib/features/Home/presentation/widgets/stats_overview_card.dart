@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/text_style.dart';
-import '../../../../core/constant/colors.dart';
+
 
 class StatsOverviewCard extends StatelessWidget {
   final int totalEmployees;
@@ -23,17 +23,14 @@ class StatsOverviewCard extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppColors.kPrimaryColor,
-            AppColors.kPrimaryColor.withOpacity(0.8),
-          ],
+          colors: [Colors.blue.shade400, Colors.blue.shade600],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: AppColors.kPrimaryColor.withOpacity(0.3),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            color: Colors.blue.shade200.withOpacity(0.2),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
           ),
         ],
       ),
@@ -42,7 +39,10 @@ class StatsOverviewCard extends StatelessWidget {
         children: [
           Text(
             'Stats Overview',
-            style: AppTextStyles.sectionTitle.copyWith(color: Colors.white),
+            style: AppTextStyles.sectionTitle.copyWith(
+              color: Colors.white,
+              fontSize: 16,
+            ),
           ),
           const SizedBox(height: 16),
           Row(
@@ -84,17 +84,22 @@ class StatsOverviewCard extends StatelessWidget {
   }) {
     return Column(
       children: [
-        Icon(icon, color: Colors.white.withOpacity(0.9), size: 24),
-        const SizedBox(height: 8),
+        Icon(icon, color: Colors.white, size: 22),
+        const SizedBox(height: 6),
         Text(
           value,
-          style: AppTextStyles.headline.copyWith(color: Colors.white),
+          style: AppTextStyles.headline.copyWith(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         const SizedBox(height: 4),
         Text(
           label,
           style: AppTextStyles.caption.copyWith(
-            color: Colors.white.withOpacity(0.8),
+            color: Colors.white.withOpacity(0.85),
+            fontSize: 11,
           ),
           textAlign: TextAlign.center,
         ),
