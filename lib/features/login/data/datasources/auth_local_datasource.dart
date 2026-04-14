@@ -12,6 +12,39 @@ class AuthLocalDataSource {
     await prefs.setString('token_type', tokenType);
     await prefs.setString('username', username);
     await prefs.setBool('remember_me', rememberMe);
+    
+  
+    if (rememberMe) {
+      await prefs.setString('saved_username', username);
+     } else {
+      await prefs.remove('saved_username');
+      await prefs.remove('saved_password');
+    }
+  }
+
+
+  Future<void> savePassword(String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    final rememberMe = prefs.getBool('remember_me') ?? false;
+    if (rememberMe) {
+  
+      await prefs.setString('saved_password', password);
+    }
+  }
+
+
+  Future<Map<String, String>?> getSavedCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    final username = prefs.getString('saved_username');
+    final password = prefs.getString('saved_password');
+    
+    if (username != null && password != null) {
+      return {
+        'username': username,
+        'password': password,
+      };
+    }
+    return null;
   }
 
   Future<Map<String, dynamic>?> getAuthData() async {
@@ -34,6 +67,8 @@ class AuthLocalDataSource {
     await prefs.remove('token_type');
     await prefs.remove('username');
     await prefs.remove('remember_me');
+    await prefs.remove('saved_username');
+    await prefs.remove('saved_password');
   }
 
   Future<String?> getToken() async {

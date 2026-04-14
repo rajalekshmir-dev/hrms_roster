@@ -22,7 +22,6 @@ class AuthRepositoryImpl implements AuthRepository {
     required bool rememberMe,
   }) async {
     try {
-     
       final response = await remoteDataSource.login(
         username: username,
         password: password,
@@ -34,7 +33,6 @@ class AuthRepositoryImpl implements AuthRepository {
       String token = '';
       String tokenType = 'Bearer';
       
-    
       if (response.containsKey('access_token')) {
         token = response['access_token'];
         tokenType = response['token_type'] ?? 'Bearer';
@@ -54,7 +52,6 @@ class AuthRepositoryImpl implements AuthRepository {
       print('Extracted Token: $token');
       print('Token Type: $tokenType');
       
-      
       await localDataSource.saveAuthData(
         token: token,
         tokenType: tokenType,
@@ -62,8 +59,12 @@ class AuthRepositoryImpl implements AuthRepository {
         rememberMe: rememberMe,
       );
       
-      print(' Token saved successfully to SharedPreferences');
+      // Save password if remember me is true
+      if (rememberMe) {
+        await localDataSource.savePassword(password);
+      }
       
+      print('Token saved successfully to SharedPreferences');
       
       final user = User(
         username: username,
@@ -96,7 +97,7 @@ class AuthRepositoryImpl implements AuthRepository {
         final username = authData['username'] as String;
         
         if (token.isNotEmpty) {
-          print(' User already authenticated: $username');
+          print('User already authenticated: $username');
           final user = User(
             username: username,
             token: token,
@@ -106,7 +107,7 @@ class AuthRepositoryImpl implements AuthRepository {
         }
       }
       
-      print(' No saved auth data found');
+      print('No saved auth data found');
       return Left(AuthFailure('Not authenticated'));
       
     } catch (e) {

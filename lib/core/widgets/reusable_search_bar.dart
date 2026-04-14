@@ -58,7 +58,10 @@ class ReusableSearchBar extends StatelessWidget {
                 ),
                 border: InputBorder.none,
                 isDense: true,
-                contentPadding: const EdgeInsets.symmetric(vertical: 12),
+                contentPadding: const EdgeInsets.symmetric(
+                  vertical: 12,
+                  horizontal: 10,
+                ),
               ),
               style: AppTextStyles.body.copyWith(fontSize: 14),
               autofocus: false,

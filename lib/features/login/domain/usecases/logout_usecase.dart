@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:hrms_roster/core/error/failures.dart';
-
 import '../repositories/auth_repository.dart';
 
 class LogoutUseCase {
