@@ -13,15 +13,21 @@ class MatchOverviewGraph extends StatelessWidget {
   });
 
   List<Color> getGradient(int score) {
-    if (score >= 90) {
-      return [const Color(0xff4ade80), const Color(0xff16a34a)];
+    score = score.clamp(0, 100);
+
+    if (score <= 50) {
+      final t = score / 50;
+      return [
+        Color.lerp(const Color(0xffef4444), const Color(0xfff59e0b), t)!,
+        Color.lerp(const Color(0xfff87171), const Color(0xfffbbf24), t)!,
+      ];
     }
 
-    if (score >= 70) {
-      return [const Color(0xfffbbf24), const Color(0xfff59e0b)];
-    }
-
-    return [const Color(0xfff87171), const Color(0xffef4444)];
+    final t = (score - 50) / 50;
+    return [
+      Color.lerp(const Color(0xfff59e0b), const Color(0xff16a34a), t)!,
+      Color.lerp(const Color(0xfffbbf24), const Color(0xff4ade80), t)!,
+    ];
   }
 
   @override
