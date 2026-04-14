@@ -55,7 +55,9 @@ class EmployeeSearchBloc
         }
 
         if (selectedLocation != null &&
-            emp.empLocation?.trim() != selectedLocation?.trim()) {
+            !(emp.empLocation ?? "").toLowerCase().contains(
+              selectedLocation!.toLowerCase(),
+            )) {
           return false;
         }
 

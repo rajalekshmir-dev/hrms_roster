@@ -138,47 +138,48 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                   ),
 
                   /// buttons
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 20),
-                    child: Row(
-                      children: [
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: theme.colorScheme.primary,
+                  SafeArea(
+                    top: false,
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.surface,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.05),
+                            blurRadius: 10,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              selectedItems.clear();
-                            });
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                selectedItems.clear();
+                              });
 
-                            widget.onChanged(selectedItems);
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Clear"),
-                        ),
-
-                        const Spacer(),
-
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.colorScheme.primary,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
+                              widget.onChanged(selectedItems);
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Clear"),
                           ),
-                          onPressed: () {
-                            setState(() {
-                              selectedItems = tempSelected;
-                            });
 
-                            widget.onChanged(selectedItems);
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Apply"),
-                        ),
-                      ],
+                          const Spacer(),
+
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                selectedItems = tempSelected;
+                              });
+
+                              widget.onChanged(selectedItems);
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Apply"),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

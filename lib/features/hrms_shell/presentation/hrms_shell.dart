@@ -59,15 +59,18 @@ class HRMSShell extends StatelessWidget {
         ),
 
         /// ✅ REPLACED WITH COMMON BOTTOM NAV BAR
-        bottomNavigationBar: BlocBuilder<NavigationBloc, NavigationState>(
-          builder: (context, state) {
-            return HRMSBottomNavBar(
-              currentIndex: state.currentIndex,
-              onTap: (index) {
-                context.read<NavigationBloc>().add(ChangePageEvent(index));
-              },
-            );
-          },
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: BlocBuilder<NavigationBloc, NavigationState>(
+            builder: (context, state) {
+              return HRMSBottomNavBar(
+                currentIndex: state.currentIndex,
+                onTap: (index) {
+                  context.read<NavigationBloc>().add(ChangePageEvent(index));
+                },
+              );
+            },
+          ),
         ),
       ),
     );
