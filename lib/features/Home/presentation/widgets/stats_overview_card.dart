@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/text_style.dart';
 
-
 class StatsOverviewCard extends StatelessWidget {
   final int totalEmployees;
   final int activeProjects;
@@ -17,7 +16,6 @@ class StatsOverviewCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         gradient: LinearGradient(

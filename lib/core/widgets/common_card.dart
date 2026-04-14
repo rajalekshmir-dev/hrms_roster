@@ -16,32 +16,49 @@ class CommonAnimatedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return AnimatedContainer(
       duration: duration,
       margin: margin,
       padding: padding,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        gradient: const LinearGradient(
-          colors: [Color(0xffFFFFFF), Color(0xffF9FBFF)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+
+        /// 🌗 Background changes with theme
+        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+
+        /// 🌗 Border adapts
+        border: Border.all(
+          color: isDark
+              ? Colors.white.withOpacity(0.08)
+              : Colors.blue.withOpacity(0.08),
+          width: 1,
         ),
-        border: Border.all(color: Colors.blue.withOpacity(0.08), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.06),
-            blurRadius: 25,
-            spreadRadius: 2,
-            offset: const Offset(0, 12),
-          ),
-          BoxShadow(
-            color: Colors.blue.withOpacity(0.08),
-            blurRadius: 20,
-            spreadRadius: -4,
-            offset: const Offset(0, 6),
-          ),
-        ],
+
+        /// 🌗 Shadow adapts
+        boxShadow: isDark
+            ? [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.4),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ]
+            : [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.06),
+                  blurRadius: 25,
+                  spreadRadius: 2,
+                  offset: const Offset(0, 12),
+                ),
+                BoxShadow(
+                  color: Colors.blue.withOpacity(0.08),
+                  blurRadius: 20,
+                  spreadRadius: -4,
+                  offset: const Offset(0, 6),
+                ),
+              ],
       ),
       child: child,
     );

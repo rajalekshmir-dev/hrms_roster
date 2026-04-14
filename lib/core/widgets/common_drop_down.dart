@@ -33,21 +33,26 @@ class _CommonDropdownState extends State<CommonDropdown> {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       builder: (context) {
+        final theme = Theme.of(context);
+
         return Container(
           height: MediaQuery.of(context).size.height * .55,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
           ),
+
           child: Column(
             children: [
-              /// drag handle
               const SizedBox(height: 10),
+
+              /// drag handle
               Container(
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
+                  color: theme.colorScheme.onSurface.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(10),
                 ),
               ),
@@ -61,23 +66,25 @@ class _CommonDropdownState extends State<CommonDropdown> {
                   children: [
                     Text(
                       widget.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
-
                     const Spacer(),
-
                     IconButton(
-                      icon: const Icon(Icons.close),
+                      icon: Icon(
+                        Icons.close,
+                        color: theme.colorScheme.onSurface,
+                      ),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ],
                 ),
               ),
 
-              const Divider(),
+              Divider(color: theme.dividerColor),
 
               /// list
               Expanded(
@@ -96,36 +103,44 @@ class _CommonDropdownState extends State<CommonDropdown> {
                         widget.onChanged(item);
                         Navigator.pop(context);
                       },
+
                       child: Container(
                         margin: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 4,
                         ),
                         padding: const EdgeInsets.all(14),
+
                         decoration: BoxDecoration(
                           color: isSelected
-                              ? Colors.blue.shade50
-                              : Colors.grey.shade50,
+                              ? theme.colorScheme.primary.withOpacity(0.12)
+                              : theme.colorScheme.surface,
+
                           borderRadius: BorderRadius.circular(12),
+
                           border: Border.all(
                             color: isSelected
-                                ? Colors.blue
-                                : Colors.grey.shade300,
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.onSurface.withOpacity(0.15),
                           ),
                         ),
+
                         child: Row(
                           children: [
                             Expanded(
                               child: Text(
                                 item,
-                                style: const TextStyle(fontSize: 15),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: theme.colorScheme.onSurface,
+                                ),
                               ),
                             ),
 
                             if (isSelected)
-                              const Icon(
+                              Icon(
                                 Icons.check_circle,
-                                color: Colors.blue,
+                                color: theme.colorScheme.primary,
                               ),
                           ],
                         ),
@@ -143,37 +158,43 @@ class _CommonDropdownState extends State<CommonDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    final bool isSelected = selectedValue != null;
+    final theme = Theme.of(context);
+    final isSelected = selectedValue != null;
 
     return GestureDetector(
       onTap: openDropdown,
+
       child: Container(
         margin: const EdgeInsets.only(left: 12),
         padding: const EdgeInsets.symmetric(horizontal: 14),
         height: 42,
+
         decoration: BoxDecoration(
-          gradient: isSelected
-              ? const LinearGradient(
-                  colors: [Color(0xffE3F2FD), Color(0xffBBDEFB)],
-                )
-              : null,
-          color: isSelected ? null : Colors.grey.shade100,
+          color: isSelected
+              ? theme.colorScheme.primary.withOpacity(0.12)
+              : theme.colorScheme.surface,
+
           borderRadius: BorderRadius.circular(24),
+
           border: Border.all(
-            color: isSelected ? Colors.blue : Colors.grey.shade300,
+            color: isSelected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.onSurface.withOpacity(0.2),
           ),
         ),
+
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              selectedValue ?? widget.title,
-              style: const TextStyle(fontSize: 14),
+            Expanded(
+              child: Text(
+                selectedValue ?? widget.title,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyle(fontSize: 14),
+              ),
             ),
-
             const SizedBox(width: 6),
-
-            const Icon(Icons.keyboard_arrow_down, size: 20),
+            Icon(Icons.keyboard_arrow_down),
           ],
         ),
       ),

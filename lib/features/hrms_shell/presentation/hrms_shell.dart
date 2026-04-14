@@ -24,7 +24,7 @@ class HRMSShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<EmployeeSearchBloc, EmployeeSearchState>(
       listener: (context, state) {
-        if (state is EmployeeLoaded) {
+        if (state is EmployeeLoading) {
           context.read<NavigationBloc>().add(ChangePageEvent(2));
         }
       },
@@ -58,15 +58,28 @@ class HRMSShell extends StatelessWidget {
         ),
 
         /// ✅ REPLACED WITH COMMON BOTTOM NAV BAR
-        bottomNavigationBar: BlocBuilder<NavigationBloc, NavigationState>(
-          builder: (context, state) {
-            return HRMSBottomNavBar(
-              currentIndex: state.currentIndex,
-              onTap: (index) {
-                context.read<NavigationBloc>().add(ChangePageEvent(index));
-              },
-            );
-          },
+        // bottomNavigationBar: BlocBuilder<NavigationBloc, NavigationState>(
+        //   builder: (context, state) {
+        //     return HRMSBottomNavBar(
+        //       currentIndex: state.currentIndex,
+        //       onTap: (index) {
+        //         context.read<NavigationBloc>().add(ChangePageEvent(index));
+        //       },
+        //     );
+        //   },
+        // ),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: BlocBuilder<NavigationBloc, NavigationState>(
+            builder: (context, state) {
+              return HRMSBottomNavBar(
+                currentIndex: state.currentIndex,
+                onTap: (index) {
+                  context.read<NavigationBloc>().add(ChangePageEvent(index));
+                },
+              );
+            },
+          ),
         ),
       ),
     );

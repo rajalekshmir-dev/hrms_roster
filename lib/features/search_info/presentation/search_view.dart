@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hrms_roster/core/widgets/common_loading.dart';
 import 'package:hrms_roster/features/search_info/presentation/bloc/search_state.dart';
 import 'package:hrms_roster/features/search_info/presentation/widgets/EmployeeCard.dart';
 
@@ -33,12 +34,11 @@ class _SearchAiQueryDataState extends State<SearchAiQueryData> {
             child: BlocBuilder<EmployeeSearchBloc, EmployeeSearchState>(
               builder: (context, state) {
                 if (state is EmployeeLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: CommonLineLoading());
                 }
                 if (state is EmployeeLoaded) {
                   final employees = state.employee.data;
 
-                  /// NO DATA CASE
                   if (employees.isEmpty) {
                     return const Center(
                       child: Text(
@@ -61,11 +61,15 @@ class _SearchAiQueryDataState extends State<SearchAiQueryData> {
                             SizedBox(
                               width: 180,
                               child: MultiSelectDropdown(
-                                title: "Skills",
+                                title: "Department",
                                 items: state.department,
                                 onChanged: (values) {
                                   context.read<EmployeeSearchBloc>().add(
-                                    FilterEmployeesEvent(techGroups: values),
+                                    FilterEmployeesEvent(
+                                      department: values.isNotEmpty
+                                          ? values.first
+                                          : null,
+                                    ),
                                   );
                                 },
                               ),
@@ -96,11 +100,7 @@ class _SearchAiQueryDataState extends State<SearchAiQueryData> {
                                 items: state.experiences,
                                 onChanged: (value) {
                                   context.read<EmployeeSearchBloc>().add(
-                                    FilterEmployeesEvent(
-                                      techGroups: value != null
-                                          ? [value]
-                                          : null,
-                                    ),
+                                    FilterEmployeesEvent(experience: value),
                                   );
                                 },
                               ),

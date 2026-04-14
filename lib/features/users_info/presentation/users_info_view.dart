@@ -30,6 +30,7 @@ class _UserInfoPageState extends State<UserInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ScrollController _scrollController = ScrollController();
     return Column(
       children: [
         /// SEARCH BAR
@@ -46,7 +47,6 @@ class _UserInfoPageState extends State<UserInfoPage> {
               if (state is UserInfoLoaded) {
                 final users = state.users;
 
-                /// NO DATA CASE
                 if (users.isEmpty) {
                   return Center(
                     child: Text(
@@ -62,19 +62,115 @@ class _UserInfoPageState extends State<UserInfoPage> {
                   );
                 }
 
-                /// USER LIST
-                return ListView.builder(
-                  itemCount: users.length,
-                  itemBuilder: (context, index) {
-                    final user = users[index];
+                return Column(
+                  children: [
+                    /// HEADER (NOW IT WILL SHOW)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 6,
+                      ),
+                      child: Row(
+                        children: [
+                          /// TITLE
+                          const Text(
+                            "Employees",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
 
-                    return UserInfoCard(
-                      name: user.displayName ?? '',
-                      id: user.employeeId ?? '',
-                      designation: user.designation ?? '',
-                      skills: user.techGroup ?? '',
-                    );
-                  },
+                          const SizedBox(width: 8),
+
+                          /// COUNT
+                          Text(
+                            "${users.length} / 500",
+                            style: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+
+                          const Spacer(),
+
+                          /// SCROLL BUTTONS
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.grey.shade100,
+                            ),
+                            child: Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    _scrollController.animateTo(
+                                      _scrollController.offset - 250,
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(6),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_up,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+
+                                Container(
+                                  height: 18,
+                                  width: 1,
+                                  color: Colors.grey.shade300,
+                                ),
+
+                                InkWell(
+                                  onTap: () {
+                                    _scrollController.animateTo(
+                                      _scrollController.offset + 250,
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      curve: Curves.easeInOut,
+                                    );
+                                  },
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(6),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_down,
+                                      size: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    /// LIST
+                    Expanded(
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        itemCount: users.length,
+                        itemBuilder: (context, index) {
+                          final user = users[index];
+
+                          return UserInfoCard(
+                            name: user.displayName ?? '',
+                            id: user.employeeId ?? '',
+                            designation: user.designation ?? '',
+                            skills: user.techGroup ?? '',
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 );
               }
 

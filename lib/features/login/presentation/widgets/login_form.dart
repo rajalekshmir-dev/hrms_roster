@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
@@ -62,9 +61,7 @@ class _LoginFormState extends State<LoginForm> {
       return const Center(
         child: SizedBox(
           height: 200,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
+          child: Center(child: CircularProgressIndicator()),
         ),
       );
     }
@@ -126,7 +123,7 @@ class _LoginFormState extends State<LoginForm> {
                     onChanged: (value) {
                       setState(() {
                         _rememberMe = value ?? false;
-                        
+
                         // If unchecking remember me, clear saved credentials
                         if (!_rememberMe) {
                           _clearSavedCredentials();
@@ -176,7 +173,7 @@ class _LoginFormState extends State<LoginForm> {
     if (_formKey.currentState!.validate()) {
       final username = _usernameController.text.trim();
       final password = _passwordController.text;
-      
+
       // Save credentials if remember me is checked
       if (_rememberMe) {
         final prefs = await SharedPreferences.getInstance();
@@ -186,7 +183,7 @@ class _LoginFormState extends State<LoginForm> {
       } else {
         await _clearSavedCredentials();
       }
-      
+
       context.read<AuthBloc>().add(
         LoginRequested(
           username: username,

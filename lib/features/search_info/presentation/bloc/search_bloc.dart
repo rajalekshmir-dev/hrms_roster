@@ -12,7 +12,14 @@ class EmployeeSearchBloc
   List<Datum> allEmployees = [];
   List<Datum> filteredEmployees = [];
 
+  /// CURRENT FILTERS
+  String? selectedDepartment;
+  String? selectedLocation;
+  String? selectedExperience;
+  List<String>? selectedTechGroups;
+
   EmployeeSearchBloc(this.repository) : super(EmployeeInitial()) {
+    /// SEARCH EVENT
     on<SearchEmployeeEvent>((event, emit) async {
       emit(EmployeeLoading());
 
@@ -21,37 +28,58 @@ class EmployeeSearchBloc
       allEmployees = result.data;
       filteredEmployees = allEmployees;
 
-      final skills = extractSkills(allEmployees);
-      final techGroups = extractTechGroups(allEmployees);
-      final locations = extractLocations(allEmployees);
-      final experiences = extractExperiences(allEmployees);
-      final department = extractDepartment(allEmployees);
-
       emit(
         EmployeeLoaded(
           result,
-          skills,
-          techGroups,
-          locations,
-          experiences,
-          department,
+          extractSkills(allEmployees),
+          extractTechGroups(allEmployees),
+          extractLocations(allEmployees),
+          extractExperiences(allEmployees),
+          extractDepartment(allEmployees),
         ),
       );
     });
 
+    /// FILTER EVENT
     on<FilterEmployeesEvent>((event, emit) {
+      /// SAVE SELECTED FILTERS
+      selectedDepartment = event.department ?? selectedDepartment;
+      selectedLocation = event.location ?? selectedLocation;
+      selectedExperience = event.experience ?? selectedExperience;
+      selectedTechGroups = event.techGroups ?? selectedTechGroups;
+
       filteredEmployees = allEmployees.where((emp) {
-        if (event.department != null &&
-            emp.employeeDepartment != event.department) {
+        if (selectedDepartment != null &&
+            emp.employeeDepartment?.trim() != selectedDepartment?.trim()) {
           return false;
         }
 
-        if (event.location != null && emp.empLocation != event.location) {
+        if (selectedLocation != null &&
+            !(emp.empLocation ?? "").toLowerCase().contains(
+              selectedLocation!.toLowerCase(),
+            )) {
           return false;
         }
 
-        if (event.techGroups != null &&
-            !event.techGroups!.contains(emp.techGroup)) {
+        if (selectedExperience != null &&
+            emp.totalExp?.trim() != selectedExperience?.trim()) {
+          return false;
+        }
+
+        if (selectedTechGroups != null &&
+            !selectedTechGroups!.contains(emp.techGroup?.trim())) {
+          return false;
+        }
+        if (selectedDepartment != null &&
+            !(emp.employeeDepartment ?? "").toLowerCase().contains(
+              selectedDepartment!.toLowerCase(),
+            )) {
+          return false;
+        }
+
+        /// SKILLS FILTER
+        if (selectedTechGroups != null &&
+            !selectedTechGroups!.contains(emp.techGroup)) {
           return false;
         }
 
@@ -76,7 +104,7 @@ class EmployeeSearchBloc
           extractTechGroups(allEmployees),
           extractLocations(allEmployees),
           extractExperiences(allEmployees),
-          extractExperiences(allEmployees),
+          extractDepartment(allEmployees), // ✅ fixed
         ),
       );
     });
@@ -88,6 +116,7 @@ class EmployeeSearchBloc
 
     for (var emp in employees) {
       final skillList = (emp.skillSet ?? "").split(",");
+
       for (var skill in skillList) {
         skills.add(skill.trim());
       }
@@ -98,22 +127,28 @@ class EmployeeSearchBloc
 
   /// TECH GROUP
   List<String> extractTechGroups(List<Datum> employees) {
-    return employees.map((e) => e.techGroup ?? "").toSet().toList()..sort();
+    return employees.map((e) => (e.techGroup ?? "").trim()).toSet().toList()
+      ..sort();
   }
 
   /// LOCATION
   List<String> extractLocations(List<Datum> employees) {
-    return employees.map((e) => e.empLocation ?? "").toSet().toList()..sort();
+    return employees.map((e) => (e.empLocation ?? "").trim()).toSet().toList()
+      ..sort();
   }
 
   /// EXPERIENCE
   List<String> extractExperiences(List<Datum> employees) {
-    return employees.map((e) => e.totalExp ?? "").toSet().toList()..sort();
+    return employees.map((e) => (e.totalExp ?? "").trim()).toSet().toList()
+      ..sort();
   }
 
   /// DEPARTMENT
   List<String> extractDepartment(List<Datum> employees) {
-    return employees.map((e) => e.employeeDepartment ?? "").toSet().toList()
+    return employees
+        .map((e) => (e.employeeDepartment ?? "").trim())
+        .toSet()
+        .toList()
       ..sort();
   }
 }

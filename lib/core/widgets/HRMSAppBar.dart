@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../features/theme/bloc/theme_bloc.dart';
 import '../../features/theme/bloc/theme_event.dart';
 import '../constant/colors.dart';
@@ -54,12 +55,16 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
           Container(
             height: 40,
             width: 40,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(0xFFF2F4F7),
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
             ),
             child: IconButton(
-              icon: const Icon(Icons.brightness_6, size: 30),
+              icon: Icon(
+                Icons.brightness_6,
+                size: 30,
+                color: Theme.of(context).iconTheme.color,
+              ),
               onPressed: () {
                 context.read<ThemeBloc>().add(ToggleTheme());
               },
@@ -74,16 +79,15 @@ class HRMSAppBar extends StatelessWidget implements PreferredSizeWidget {
               Container(
                 height: 40,
                 width: 40,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF2F4F7),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.notifications_none,
                     size: 30,
-
-                    color: AppColors.kHeadingColor,
+                    color: Theme.of(context).iconTheme.color,
                   ),
                   onPressed: () {},
                 ),

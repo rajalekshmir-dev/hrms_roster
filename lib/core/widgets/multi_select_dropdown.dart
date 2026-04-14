@@ -27,23 +27,31 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (context) {
+        final theme = Theme.of(context);
+        final isDark = theme.brightness == Brightness.dark;
+
         return StatefulBuilder(
           builder: (context, setModalState) {
             return Container(
               height: MediaQuery.of(context).size.height * 0.65,
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surface,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
               ),
+
               child: Column(
                 children: [
-                  /// drag handle
                   const SizedBox(height: 10),
+
+                  /// drag handle
                   Container(
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
+                      color: theme.colorScheme.onSurface.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -57,19 +65,19 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                       children: [
                         Text(
                           widget.title,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.onSurface,
                           ),
                         ),
-
                         const Spacer(),
-
                         IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+                          icon: Icon(
+                            Icons.close,
+                            color: theme.colorScheme.onSurface,
+                          ),
+                          onPressed: () => Navigator.pop(context),
                         ),
                       ],
                     ),
@@ -84,7 +92,7 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                         child: Text(
                           "${tempSelected.length} selected",
                           style: TextStyle(
-                            color: Colors.blue.shade700,
+                            color: theme.colorScheme.primary,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -102,9 +110,19 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                         final selected = tempSelected.contains(item);
 
                         return CheckboxListTile(
-                          title: Text(item),
+                          title: Text(
+                            item,
+                            style: TextStyle(
+                              color: theme.colorScheme.onSurface,
+                            ),
+                          ),
+
                           value: selected,
-                          activeColor: Colors.blue,
+
+                          activeColor: theme.colorScheme.primary,
+
+                          checkColor: Colors.white,
+
                           onChanged: (value) {
                             setModalState(() {
                               if (value == true) {
@@ -120,42 +138,48 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                   ),
 
                   /// buttons
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 10, 16, 20),
-                    child: Row(
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {
-                            setState(() {
-                              selectedItems.clear();
-                            });
-
-                            widget.onChanged(selectedItems);
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Clear"),
-                        ),
-
-                        const Spacer(),
-
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 24,
-                              vertical: 12,
-                            ),
+                  SafeArea(
+                    top: false,
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.surface,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(.05),
+                            blurRadius: 10,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              selectedItems = tempSelected;
-                            });
+                        ],
+                      ),
+                      child: Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                selectedItems.clear();
+                              });
 
-                            widget.onChanged(selectedItems);
-                            Navigator.pop(context);
-                          },
-                          child: const Text("Apply"),
-                        ),
-                      ],
+                              widget.onChanged(selectedItems);
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Clear"),
+                          ),
+
+                          const Spacer(),
+
+                          ElevatedButton(
+                            onPressed: () {
+                              setState(() {
+                                selectedItems = tempSelected;
+                              });
+
+                              widget.onChanged(selectedItems);
+                              Navigator.pop(context);
+                            },
+                            child: const Text("Apply"),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -169,34 +193,48 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final hasSelection = selectedItems.isNotEmpty;
+
     return GestureDetector(
       onTap: openSelection,
+
       child: Container(
         margin: const EdgeInsets.only(right: 8),
         padding: const EdgeInsets.symmetric(horizontal: 12),
         height: 36,
+
         decoration: BoxDecoration(
-          color: selectedItems.isEmpty
-              ? Colors.grey.shade100
-              : Colors.blue.shade50,
+          color: hasSelection
+              ? theme.colorScheme.primary.withOpacity(0.1)
+              : theme.colorScheme.surface,
+
           borderRadius: BorderRadius.circular(20),
+
           border: Border.all(
-            color: selectedItems.isEmpty ? Colors.grey.shade300 : Colors.blue,
+            color: hasSelection
+                ? theme.colorScheme.primary
+                : theme.colorScheme.onSurface.withOpacity(0.2),
           ),
         ),
+
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              selectedItems.isEmpty
-                  ? widget.title
-                  : "${selectedItems.length} selected",
+              hasSelection ? "${selectedItems.length} selected" : widget.title,
               overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: theme.colorScheme.onSurface),
             ),
 
             const SizedBox(width: 4),
 
-            const Icon(Icons.keyboard_arrow_down, size: 18),
+            Icon(
+              Icons.keyboard_arrow_down,
+              size: 18,
+              color: theme.colorScheme.onSurface,
+            ),
           ],
         ),
       ),
