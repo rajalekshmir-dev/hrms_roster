@@ -1,3 +1,4 @@
+
 class DirectoryContact {
   final String name;
   final String title;
@@ -5,7 +6,7 @@ class DirectoryContact {
   final String? email;
   final String? phone;
   final String? avatar;
-  final int? id;
+  final String? id; 
   final String? department;
   final int occupancyPercent;
 

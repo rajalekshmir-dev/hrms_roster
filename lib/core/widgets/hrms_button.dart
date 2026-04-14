@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
 
-class ReusableButton extends StatelessWidget {
+class HrmsButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
@@ -14,7 +14,7 @@ class ReusableButton extends StatelessWidget {
   final FontWeight fontWeight;
   final double borderRadius;
 
-  const ReusableButton({
+  const HrmsButton({
     super.key,
     required this.text,
     this.onPressed,

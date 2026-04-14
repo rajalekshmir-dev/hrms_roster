@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
 
-class ReusableFormField extends StatelessWidget {
+class UserNameField extends StatelessWidget {
   final String label;
   final String hintText;
   final TextEditingController controller;
@@ -12,7 +12,7 @@ class ReusableFormField extends StatelessWidget {
   final TextInputType keyboardType;
   final TextInputAction textInputAction;
 
-  const ReusableFormField({
+  const UserNameField({
     super.key,
     required this.label,
     required this.hintText,

@@ -1,13 +1,29 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/widgets/login_form.dart';
 import 'package:hrms_roster/core/widgets/reusable_sections.dart';
+import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
+import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
+import 'package:hrms_roster/features/hrms_shell/presentation/hrms_shell.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: LoginView());
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        // If already authenticated, redirect to home
+        if (state is Authenticated) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) =>  HRMSShell()),
+          );
+        }
+      },
+      child: const Scaffold(body: LoginView()),
+    );
   }
 }
 
@@ -50,7 +66,9 @@ class LoginView extends StatelessWidget {
                 FooterSection(
                   question: "Don't have an account? ",
                   actionText: 'Sign up',
-                  onActionPressed: () {},
+                  onActionPressed: () {
+                    // TODO: Implement sign up navigation
+                  },
                 ),
               ],
             ),

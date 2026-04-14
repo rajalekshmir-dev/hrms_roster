@@ -1,0 +1,104 @@
+import 'package:flutter/material.dart';
+import 'package:hrms_roster/core/constant/text_style.dart';
+import '../../../../core/constant/colors.dart';
+
+class StatsOverviewCard extends StatelessWidget {
+  final int totalEmployees;
+  final int activeProjects;
+  final int freePool;
+
+  const StatsOverviewCard({
+    super.key,
+    required this.totalEmployees,
+    required this.activeProjects,
+    required this.freePool,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.kPrimaryColor,
+            AppColors.kPrimaryColor.withOpacity(0.8),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.kPrimaryColor.withOpacity(0.3),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Stats Overview',
+            style: AppTextStyles.sectionTitle.copyWith(color: Colors.white),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              Expanded(
+                child: _buildStatItem(
+                  label: 'Total Employees',
+                  value: totalEmployees.toString(),
+                  icon: Icons.people,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildStatItem(
+                  label: 'Active Projects',
+                  value: activeProjects.toString(),
+                  icon: Icons.folder_open,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: _buildStatItem(
+                  label: 'Free Pool',
+                  value: freePool.toString(),
+                  icon: Icons.people_outline,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatItem({
+    required String label,
+    required String value,
+    required IconData icon,
+  }) {
+    return Column(
+      children: [
+        Icon(icon, color: Colors.white.withOpacity(0.9), size: 24),
+        const SizedBox(height: 8),
+        Text(
+          value,
+          style: AppTextStyles.headline.copyWith(color: Colors.white),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: AppTextStyles.caption.copyWith(
+            color: Colors.white.withOpacity(0.8),
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}

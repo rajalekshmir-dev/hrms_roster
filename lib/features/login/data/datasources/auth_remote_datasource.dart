@@ -1,25 +1,23 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:hrms_roster/core/constant/app_constant.dart';
 import 'package:hrms_roster/core/error/exceptions.dart';
 import 'package:http/http.dart' as http;
 
 class AuthRemoteDataSource {
-  // static const String baseUrl ='https://roster.vvdnice.com/api';
-  // //  'http://172.25.10.111:8000/api';
-  // static const String loginEndpoint = '/login';
-
-  Future<Map<String, dynamic>> login({
-    required String username,
-    required String password,
-  }) async {
-    try {
-      final Uri url = Uri.parse(
-        '${AppConstants.baseUrl}${AppConstants.loginEndpoint}',
-      );
-      print('=== API REQUEST ===');
-      print('URL: $url');
+  
+Future<Map<String, dynamic>> login({
+  required String username,
+  required String password,
+}) async {
+  try {
+  
+    final String baseUrl = '${AppConstants.baseUrl}${AppConstants.loginEndpoint}';
+    final Uri url = Uri.parse(baseUrl);
+    
+    print('=== API REQUEST ===');
+    print('URL: $url');
+  
       print('Body: {"username": "$username", "password": "***"}');
 
       final response = await http
