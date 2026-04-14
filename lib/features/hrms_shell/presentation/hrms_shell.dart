@@ -25,7 +25,7 @@ class HRMSShell extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<EmployeeSearchBloc, EmployeeSearchState>(
       listener: (context, state) {
-        if (state is EmployeeLoaded) {
+        if (state is EmployeeLoading) {
           context.read<NavigationBloc>().add(ChangePageEvent(2));
         }
       },

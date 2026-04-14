@@ -184,23 +184,17 @@ class _CommonDropdownState extends State<CommonDropdown> {
         ),
 
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              selectedValue ?? widget.title,
-              style: TextStyle(
-                fontSize: 14,
-                color: theme.colorScheme.onSurface,
+            Expanded(
+              child: Text(
+                selectedValue ?? widget.title,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: TextStyle(fontSize: 14),
               ),
             ),
-
             const SizedBox(width: 6),
-
-            Icon(
-              Icons.keyboard_arrow_down,
-              size: 20,
-              color: theme.colorScheme.onSurface,
-            ),
+            Icon(Icons.keyboard_arrow_down),
           ],
         ),
       ),
