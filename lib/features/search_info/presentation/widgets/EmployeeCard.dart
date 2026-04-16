@@ -40,7 +40,6 @@ class _EmployeeCardState extends State<EmployeeCard>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  /// HEADER
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -122,9 +121,9 @@ class _EmployeeCardState extends State<EmployeeCard>
 
                   const SizedBox(height: 6),
 
-                  ExpandableSkills(skills: employee.skillSet?.split(",") ?? []),
-
                   const SizedBox(height: 14),
+
+                  ExpandableSkills(skills: employee.skillSet?.split(",") ?? []),
 
                   MatchOverviewGraph(
                     skill: employee.aiCriteria?.skill?.toInt() ?? 0,
@@ -144,18 +143,13 @@ class _EmployeeCardState extends State<EmployeeCard>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 14),
-
                               Divider(color: Colors.grey.shade300),
-
                               const SizedBox(height: 10),
-
                               const Text(
                                 "Match Score",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
-
                               const SizedBox(height: 14),
-
                               const Text(
                                 "Why this match?",
                                 style: TextStyle(fontWeight: FontWeight.bold),

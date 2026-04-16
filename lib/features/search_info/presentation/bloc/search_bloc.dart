@@ -25,12 +25,28 @@ class EmployeeSearchBloc
 
       final result = await repository.searchEmployees(event.query);
 
+      /// RESET FILTER STATE
+      selectedDepartment = null;
+      selectedLocation = null;
+      selectedExperience = null;
+      selectedTechGroups = null;
+
+      /// UPDATE DATA
       allEmployees = result.data;
-      filteredEmployees = allEmployees;
+      filteredEmployees = List.from(allEmployees);
 
       emit(
         EmployeeLoaded(
-          result,
+          EmployeeModel(
+            action: result.action,
+            ranking: result.ranking,
+            response: result.response,
+            data: filteredEmployees,
+            totalResults: filteredEmployees.length,
+            parsedQuery: result.parsedQuery,
+            processingTime: result.processingTime,
+            employeeSearch: result.employeeSearch,
+          ),
           extractSkills(allEmployees),
           extractTechGroups(allEmployees),
           extractLocations(allEmployees),
@@ -43,10 +59,10 @@ class EmployeeSearchBloc
     /// FILTER EVENT
     on<FilterEmployeesEvent>((event, emit) {
       /// SAVE SELECTED FILTERS
-      selectedDepartment = event.department ?? selectedDepartment;
-      selectedLocation = event.location ?? selectedLocation;
-      selectedExperience = event.experience ?? selectedExperience;
-      selectedTechGroups = event.techGroups ?? selectedTechGroups;
+      selectedDepartment = event.department;
+      selectedLocation = event.location;
+      selectedExperience = event.experience;
+      selectedTechGroups = event.techGroups;
 
       filteredEmployees = allEmployees.where((emp) {
         if (selectedDepartment != null &&
@@ -113,15 +129,12 @@ class EmployeeSearchBloc
   /// SKILLS
   List<String> extractSkills(List<Datum> employees) {
     final skills = <String>{};
-
     for (var emp in employees) {
       final skillList = (emp.skillSet ?? "").split(",");
-
       for (var skill in skillList) {
         skills.add(skill.trim());
       }
     }
-
     return skills.toList()..sort();
   }
 
