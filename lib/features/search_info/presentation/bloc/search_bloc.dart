@@ -129,15 +129,12 @@ class EmployeeSearchBloc
   /// SKILLS
   List<String> extractSkills(List<Datum> employees) {
     final skills = <String>{};
-
     for (var emp in employees) {
       final skillList = (emp.skillSet ?? "").split(",");
-
       for (var skill in skillList) {
         skills.add(skill.trim());
       }
     }
-
     return skills.toList()..sort();
   }
 

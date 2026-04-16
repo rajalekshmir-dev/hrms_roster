@@ -9,15 +9,14 @@ class MatchBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        /// Main badge
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: ShapeDecoration(
             gradient: const LinearGradient(
               colors: [Color(0xff22c55e), Color(0xff16a34a)],
             ),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
+            shape: const StadiumBorder(),
+            shadows: [
               BoxShadow(
                 color: Colors.black.withOpacity(.2),
                 blurRadius: 8,
@@ -26,7 +25,7 @@ class MatchBadge extends StatelessWidget {
             ],
           ),
           child: Text(
-            "$match% Match",
+            "${match.round()}% Match",
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -34,8 +33,6 @@ class MatchBadge extends StatelessWidget {
             ),
           ),
         ),
-
-        /// small pointer
       ],
     );
   }

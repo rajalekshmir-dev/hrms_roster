@@ -46,10 +46,8 @@ class MatchOverviewGraph extends StatelessWidget {
           children: [
             _segment(skill, getGradient(skill)),
             const SizedBox(width: 6),
-
             _segment(experience, getGradient(experience)),
             const SizedBox(width: 6),
-
             _segment(availability, getGradient(availability)),
           ],
         ),
@@ -70,31 +68,54 @@ class MatchOverviewGraph extends StatelessWidget {
   }
 
   Widget _segment(int value, List<Color> gradient) {
+    value = value.clamp(0, 100);
+
     return Expanded(
-      child: Container(
-        height: 14,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          gradient: LinearGradient(
-            colors: gradient,
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: gradient.last.withOpacity(.35),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final width = constraints.maxWidth * (value / 100);
+
+          return Stack(
+            children: [
+              /// Background track
+              Container(
+                height: 14,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+
+              /// Filled gradient
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 400),
+                width: width,
+                height: 14,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: LinearGradient(
+                    colors: gradient,
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: gradient.last.withOpacity(.35),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
   Widget _legend(String label, int score) {
     final colors = getGradient(score);
-
     return Row(
       children: [
         Container(
