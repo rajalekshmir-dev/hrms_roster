@@ -39,4 +39,16 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, DirectoryContact>> getEmployeeDetails(
+      String employeeId) async {
+    try {
+      final employeeDetails =
+          await remoteDataSource.getEmployeeDetails(employeeId);
+      return Right(employeeDetails);
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

@@ -43,9 +43,7 @@ class _HomePageState extends State<HomePage> {
             return const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CommonLineLoading()
-                ],
+                children: [CommonLineLoading()],
               ),
             );
           }
@@ -55,14 +53,11 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    Icons.error_outline,
-                    size: 64,
-                    color: AppColors.error,
-                  ),
+                  Icon(Icons.error_outline, size: 64, color: AppColors.error),
                   const SizedBox(height: 16),
                   Text(
-                    state.errorMessage ?? 'Something went wrong',
+                    // state.errorMessage ??
+                    'Something went wrong',
                     style: AppTextStyles.body,
                     textAlign: TextAlign.center,
                   ),
@@ -72,7 +67,10 @@ class _HomePageState extends State<HomePage> {
                       context.read<HomeBloc>().add(RefreshHomeData());
                     },
                     icon: const Icon(Icons.refresh),
-                    label: const Text('Retry'),
+                    label: const Text(
+                      'Retry',
+                      style: TextStyle(color: Colors.white),
+                    ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.kPrimaryColor,
                     ),
@@ -102,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                       activeProjects: state.activeProjects,
                       freePool: state.freePoolCount,
                     ),
-                    
+
                     const SizedBox(height: 24),
 
                     // Employee Directory Container
@@ -131,7 +129,9 @@ class _HomePageState extends State<HomePage> {
                                         onTap: state.currentPage > 1
                                             ? () {
                                                 context.read<HomeBloc>().add(
-                                                  GoToPage(state.currentPage - 1),
+                                                  GoToPage(
+                                                    state.currentPage - 1,
+                                                  ),
                                                 );
                                               }
                                             : null,
@@ -151,7 +151,9 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         decoration: BoxDecoration(
                                           color: AppColors.kSoftColor,
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                         ),
                                         child: Text(
                                           '${state.currentPage}/${state.totalPages}',
@@ -163,16 +165,21 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       const SizedBox(width: 8),
                                       GestureDetector(
-                                        onTap: state.currentPage < state.totalPages
+                                        onTap:
+                                            state.currentPage < state.totalPages
                                             ? () {
                                                 context.read<HomeBloc>().add(
-                                                  GoToPage(state.currentPage + 1),
+                                                  GoToPage(
+                                                    state.currentPage + 1,
+                                                  ),
                                                 );
                                               }
                                             : null,
                                         child: Icon(
                                           Icons.arrow_forward_ios,
-                                          color: state.currentPage < state.totalPages
+                                          color:
+                                              state.currentPage <
+                                                  state.totalPages
                                               ? AppColors.kPrimaryColor
                                               : Colors.grey.shade400,
                                           size: 16,
@@ -221,7 +228,11 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
 
-                          const Divider(height: 1, thickness: 1, color: AppColors.kDashboardBgColor),
+                          const Divider(
+                            height: 1,
+                            thickness: 1,
+                            color: AppColors.kDashboardBgColor,
+                          ),
 
                           if (state.displayContacts.isEmpty &&
                               state.searchQuery.isNotEmpty)
@@ -247,12 +258,15 @@ class _HomePageState extends State<HomePage> {
                                     TextButton.icon(
                                       onPressed: () {
                                         _searchController.clear();
-                                        context.read<HomeBloc>().add(ClearSearch());
+                                        context.read<HomeBloc>().add(
+                                          ClearSearch(),
+                                        );
                                       },
                                       icon: const Icon(Icons.clear, size: 18),
                                       label: const Text('Clear search'),
                                       style: TextButton.styleFrom(
-                                        foregroundColor: AppColors.kPrimaryColor,
+                                        foregroundColor:
+                                            AppColors.kPrimaryColor,
                                       ),
                                     ),
                                   ],
@@ -273,7 +287,10 @@ class _HomePageState extends State<HomePage> {
                                     SizedBox(height: 12),
                                     Text(
                                       'No employees found',
-                                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -285,7 +302,8 @@ class _HomePageState extends State<HomePage> {
                               physics: const NeverScrollableScrollPhysics(),
                               padding: const EdgeInsets.all(16),
                               itemCount: state.displayContacts.length,
-                              separatorBuilder: (_, __) => const SizedBox(height: 12),
+                              separatorBuilder: (_, __) =>
+                                  const SizedBox(height: 12),
                               itemBuilder: (context, index) {
                                 return ContactCard(
                                   contact: state.displayContacts[index],
@@ -334,10 +352,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Filter Employees',
-                  style: AppTextStyles.headline,
-                ),
+                Text('Filter Employees', style: AppTextStyles.headline),
                 const SizedBox(height: 16),
                 _buildFilterOption(context, 'Department'),
                 _buildFilterOption(context, 'Location'),

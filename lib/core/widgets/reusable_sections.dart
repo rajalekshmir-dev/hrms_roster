@@ -91,6 +91,7 @@ class WelcomeSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
+        
         Text(
           subtitle,
           style: const TextStyle(fontSize: 14, color: Color(0xFF666666)),

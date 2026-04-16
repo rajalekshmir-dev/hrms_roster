@@ -7,6 +7,20 @@ class ContactCard extends StatelessWidget {
 
   const ContactCard({super.key, required this.contact});
 
+  // Helper method to extract numeric ID from employee_id
+  String _extractNumericId(String? employeeId) {
+    if (employeeId == null || employeeId.isEmpty) return '';
+
+    // If it contains '/', take the part after the last '/'
+    if (employeeId.contains('/')) {
+      final parts = employeeId.split('/');
+      return parts.last;
+    }
+
+    // If it's already numeric or other format, return as is
+    return employeeId;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -17,19 +31,25 @@ class ContactCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EmployeeDetailPage(employee: contact),
-            ),
-          );
+          final employeeId = contact.employeeId ?? contact.id;
+          if (employeeId != null && employeeId.isNotEmpty) {
+            final numericId = _extractNumericId(employeeId);
+            print('Original Employee ID: $employeeId');
+            print('Extracted Numeric ID: $numericId');
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => EmployeeDetailPage(employeeId: numericId),
+              ),
+            );
+          }
         },
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
-              // Avatar
               Container(
                 width: 48,
                 height: 48,
@@ -39,7 +59,9 @@ class ContactCard extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    contact.name.isNotEmpty ? contact.name[0].toUpperCase() : '?',
+                    contact.name.isNotEmpty
+                        ? contact.name[0].toUpperCase()
+                        : '?',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -49,7 +71,6 @@ class ContactCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              // Contact Info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,10 +111,7 @@ class ContactCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Icon(
-                Icons.chevron_right,
-                color: Colors.grey.shade400,
-              ),
+              Icon(Icons.chevron_right, color: Colors.grey.shade400),
             ],
           ),
         ),

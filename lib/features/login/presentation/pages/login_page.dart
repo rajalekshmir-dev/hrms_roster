@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/features/login/presentation/widgets/login_form.dart';
@@ -7,6 +6,8 @@ import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
 import 'package:hrms_roster/features/hrms_shell/presentation/hrms_shell.dart';
 
+import '../../../../core/constant/colors.dart';
+
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
 
@@ -14,11 +15,10 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-       
         if (state is Authenticated) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) =>  HRMSShell()),
+            MaterialPageRoute(builder: (_) => HRMSShell()),
           );
         }
       },
@@ -49,13 +49,23 @@ class LoginView extends StatelessWidget {
                       'Onboard talent • Analyze data • Match candidates smartly',
                   badgeText: 'HRMS.AI',
                 ),
-                const SizedBox(height: 60),
+                const SizedBox(height: 40),
 
                 // Welcome Section
-                const WelcomeSection(
-                  title: 'Welcome Back!',
-                  subtitle: 'Please enter your details',
+                // const WelcomeSection(
+                //   title: 'Welcome Back!',
+                //   subtitle: 'Please enter your details',
+                // ),
+                Center(
+                  child: Image.asset(
+                    "assets/images/human_resources_icon.png",
+                    width: 70,
+                    height: 50,
+                    color: AppColors.kPrimaryColor,
+                  ),
                 ),
+                const SizedBox(height: 8),
+
                 const SizedBox(height: 32),
 
                 // Login Form

@@ -1,6 +1,7 @@
 
 import 'package:get_it/get_it.dart';
 import 'package:hrms_roster/features/Home/domain/usecases/get_dashboard_count.dart';
+import 'package:hrms_roster/features/Home/domain/usecases/get_employee_details_usecase.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/Home/data/datasources/home_remote_datasource.dart';
@@ -113,6 +114,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => CheckAuthUseCase(sl()));
   sl.registerLazySingleton(() => GetEmployeeDirectory(sl()));
   sl.registerLazySingleton(() => GetDashboardCount(sl()));
+    sl.registerLazySingleton(() => GetEmployeeDetails(sl()));
 
 
   /// =============================

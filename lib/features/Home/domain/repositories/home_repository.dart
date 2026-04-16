@@ -9,4 +9,5 @@ abstract class HomeRepository {
     int limit = 20,
   });
   Future<Either<Failure, DashboardCount>> getDashboardCount();
+  Future<Either<Failure, DirectoryContact>> getEmployeeDetails(String employeeId);
 }
