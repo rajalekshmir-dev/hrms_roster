@@ -249,9 +249,11 @@
 //   }
 // }
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
+import 'package:hrms_roster/core/widgets/common_toast.dart';
 import 'package:hrms_roster/core/widgets/hrms_button.dart';
 import 'package:hrms_roster/core/widgets/reusable_checkbox.dart';
 import 'package:hrms_roster/core/widgets/reusable_password_field.dart';
@@ -320,9 +322,15 @@ class _LoginFormState extends State<LoginForm> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthError) {
-          _showSnackBar(context, message: state.message, isError: true);
+          CommonToast.showError(
+            context,
+            message: state.message,
+          );
         } else if (state is Authenticated) {
-          _showSnackBar(context, message: 'Login successful!', isError: false);
+          CommonToast.showSuccess(
+            context,
+            message: 'Login successful!',
+          );
         }
       },
       builder: (context, state) {
@@ -375,7 +383,6 @@ class _LoginFormState extends State<LoginForm> {
                       setState(() {
                         _rememberMe = value ?? false;
 
-                        // If unchecking remember me, clear saved credentials
                         if (!_rememberMe) {
                           _clearSavedCredentials();
                         }
@@ -425,7 +432,6 @@ class _LoginFormState extends State<LoginForm> {
       final username = _usernameController.text.trim();
       final password = _passwordController.text;
 
-      // Save credentials if remember me is checked
       if (_rememberMe) {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('saved_username', username);
@@ -469,33 +475,6 @@ class _LoginFormState extends State<LoginForm> {
           ],
         );
       },
-    );
-  }
-
-  void _showSnackBar(
-    BuildContext context, {
-    required String message,
-    required bool isError,
-  }) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            Icon(
-              isError ? Icons.error_outline : Icons.check_circle_outline,
-              color: Colors.white,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(message, style: const TextStyle(fontSize: 14)),
-            ),
-          ],
-        ),
-        backgroundColor: isError ? AppColors.error : AppColors.success,
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: isError ? 3 : 2),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      ),
     );
   }
 }

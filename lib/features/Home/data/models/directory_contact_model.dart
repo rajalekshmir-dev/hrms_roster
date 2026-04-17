@@ -25,9 +25,7 @@ class DirectoryContactModel extends DirectoryContact {
     super.createdDate,
   });
 
-  // Factory method for directory list endpoint
   factory DirectoryContactModel.fromJson(Map<String, dynamic> json) {
-    // Map the API response fields correctly for the directory list
     final name =
         json['display_name'] ??
         json['name'] ??
@@ -53,10 +51,8 @@ class DirectoryContactModel extends DirectoryContact {
     final department =
         json['employee_department'] ?? json['department'] ?? json['dept'] ?? '';
 
-    // Get the employee_id (e.g., "VVDN/413")
     final employeeId = json['employee_id']?.toString();
 
-    // For the id field, also store the employee_id
     String? id;
     if (employeeId != null) {
       id = employeeId;
@@ -73,7 +69,7 @@ class DirectoryContactModel extends DirectoryContact {
       department: department,
       occupancyPercent:
           json['occupancy_percent'] ?? json['occupancyPercent'] ?? 0,
-      employeeId: employeeId, // Store the full ID like "VVDN/413"
+      employeeId: employeeId,
       techGroup: json['tech_group'],
       totalExp: json['total_exp'],
       vvdnExp: json['vvdn_exp'],
@@ -86,11 +82,9 @@ class DirectoryContactModel extends DirectoryContact {
     );
   }
 
-  // Factory method for employee details endpoint
   factory DirectoryContactModel.fromEmployeeDetailsJson(
     Map<String, dynamic> json,
   ) {
-    // Parse projects
     List<ProjectDetail> projects = [];
     if (json.containsKey('projects') && json['projects'] is List) {
       projects = (json['projects'] as List)
@@ -107,7 +101,6 @@ class DirectoryContactModel extends DirectoryContact {
           .toList();
     }
 
-    // Parse skills from skill_set string
     List<String> skills = [];
     if (json['skill_set'] != null && json['skill_set'].toString().isNotEmpty) {
       skills = json['skill_set']

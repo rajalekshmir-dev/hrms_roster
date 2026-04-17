@@ -55,4 +55,22 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
+
+  /// Small text
+  static const TextStyle small = TextStyle(
+    fontSize: 11,
+    fontWeight: FontWeight.w400,
+  );
+
+  /// Large Title
+  static const TextStyle largeTitle = TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+  );
+
+  /// medium title
+  static const TextStyle mediumTitle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
 }

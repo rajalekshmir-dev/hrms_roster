@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hrms_roster/core/constant/colors.dart';
+import 'package:hrms_roster/core/constant/text_style.dart';
+import 'package:hrms_roster/core/di/service_locator.dart';
+import 'package:hrms_roster/core/widgets/alert_card.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
+import 'package:hrms_roster/features/upskill/presentation/bloc/upskill_bloc.dart';
+import 'package:hrms_roster/features/upskill/presentation/bloc/upskill_event.dart';
+import 'package:hrms_roster/features/upskill/presentation/pages/project_suggestion_page.dart';
+import 'package:hrms_roster/features/upskill/presentation/pages/upskill_suggestion_page.dart';
 import '../../features/login/presentation/bloc/auth_bloc.dart';
 import '../../features/login/presentation/bloc/auth_event.dart';
 
@@ -22,7 +29,7 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 40,
-                  backgroundColor: Colors.white,
+                  backgroundColor: AppColors.kSoftColor,
                   child: Icon(
                     Icons.person,
                     size: 50,
@@ -31,7 +38,6 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
 
-                // Show user info if authenticated
                 BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     if (state is Authenticated) {
@@ -39,24 +45,21 @@ class CustomDrawer extends StatelessWidget {
                         children: [
                           Text(
                             state.user.username,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                            style: AppTextStyles.headline.copyWith(
+                              color: AppColors.kSoftColor,
                             ),
                           ),
                           const SizedBox(height: 4),
                         ],
                       );
                     }
-                    return const Column(
+                    return Column(
                       children: [
                         Text(
                           'Guest User',
-                          style: TextStyle(
-                            fontSize: 20,
+                          style: AppTextStyles.headline.copyWith(
+                            color: AppColors.kSoftColor,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
                           ),
                         ),
                       ],
@@ -68,47 +71,55 @@ class CustomDrawer extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          // ListTile(
-          //   leading: const Icon(Icons.home),
-          //   title: const Text('Home'),
-          //   onTap: () {
-          //     Navigator.pop(context);
-
-          //   },
-          // ),
-          // ListTile(
-          //   leading: const Icon(Icons.person),
-          //   title: const Text('Profile'),
-          //   onTap: () {
-          //     Navigator.pop(context);
-
-          //     if (context.read<AuthBloc>().state is Authenticated) {
-          //       final user =
-          //           (context.read<AuthBloc>().state as Authenticated).user;
-          //     }
-          //   },
-          // ),
           ListTile(
-            leading: const Icon(Icons.security),
-            title: const Text('Security'),
+            leading: Image.asset(
+              "assets/images/skill_suggestion_icon.png",
+              width: 26,
+              height: 26,
+              color: Theme.of(context).iconTheme.color,
+            ),
+            title: const Text('Upskill Suggestions'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider(
+                    create: (context) =>
+                        sl<UpskillBloc>()..add(LoadUpskillSuggestions()),
+                    child: const UpskillSuggestionPage(),
+                  ),
+                ),
+              );
             },
           ),
 
           ListTile(
-            leading: const Icon(Icons.info),
-            title: const Text('About'),
+            leading: const Icon(Icons.business_center),
+            title: const Text('Project Recommendations'),
             onTap: () {
               Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider(
+                    create: (context) =>
+                        sl<UpskillBloc>()..add(LoadUpskillSuggestions()),
+                    child: const ProjectSuggestionPage(),
+                  ),
+                ),
+              );
             },
           ),
 
           const Divider(),
 
           ListTile(
-            leading: const Icon(Icons.logout, color: Colors.red),
-            title: const Text('Logout', style: TextStyle(color: Colors.red)),
+            leading: const Icon(Icons.logout, color: AppColors.error),
+            title: const Text(
+              'Logout',
+              style: TextStyle(color: AppColors.error),
+            ),
             onTap: () {
               _handleLogout(context);
             },
@@ -119,41 +130,15 @@ class CustomDrawer extends StatelessWidget {
   }
 
   void _handleLogout(BuildContext context) {
-    // Show confirmation dialog
-    showDialog(
+    AlertCard.show(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text(
-            'Logout',
-            style: TextStyle(
-              color: AppColors.kAssistantTextPrimary,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          content: const Text(
-            'Are you sure you want to logout?',
-            style: TextStyle(color: AppColors.kAssistantTextPrimary),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              style: TextButton.styleFrom(foregroundColor: Colors.grey),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                _performLogout(context);
-              },
-              style: TextButton.styleFrom(
-                foregroundColor: AppColors.kPrimaryColor,
-              ),
-              child: const Text('Logout'),
-            ),
-          ],
-        );
-      },
+      title: 'Logout',
+      message: 'Are you sure you want to logout?',
+      confirmText: 'Logout',
+      cancelText: 'Cancel',
+      confirmButtonColor: AppColors.error,
+      // icon: Icons.logout_outlined,
+      onConfirm: () => _performLogout(context),
     );
   }
 

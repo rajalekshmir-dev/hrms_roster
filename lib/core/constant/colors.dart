@@ -46,4 +46,29 @@ class AppColors {
   static const kDarkTextColor = Colors.white;
   static const Color error = Color(0xFFE53935);
   static const Color success = Color(0xFF4CAF50);
+
+  /// =======================
+  /// GRADIENT COLORS
+  /// =======================
+
+  static const kGradientStart = Color(0xFF42A5F5);
+  static const kGradientEnd = Color(0xFF1E88E5);
+
+  /// =======================
+  /// STATUS COLORS
+  /// =======================
+
+  static const kStatusStarted = Color(0xFF4CAF50);
+  static const kStatusInProgress = Color(0xFFFF9800);
+  static const kStatusCompleted = Color(0xFF2196F3);
+  static const kStatusOnHold = Color(0xFF9E9E9E);
+
+  /// =======================
+  /// SKILL CHIP COLORS
+  /// =======================
+
+  static const kSkillChipBg = Color(0xFFE3F2FD);
+  static const kSkillChipText = Color(0xFF1976D2);
+  static const kStatsCardShadow = Color(0x331E40AF);
+  static const greyDarkColor = Color(0xFFBDBDBD);
 }

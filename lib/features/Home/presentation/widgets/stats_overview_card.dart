@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms_roster/core/constant/colors.dart';
 import 'package:hrms_roster/core/constant/text_style.dart';
 
 class StatsOverviewCard extends StatelessWidget {
@@ -21,12 +22,13 @@ class StatsOverviewCard extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Colors.blue.shade400, Colors.blue.shade600],
+          colors: [AppColors.kGradientStart, AppColors.kGradientEnd],
         ),
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.shade200.withOpacity(0.2),
+            color: AppColors.kStatsCardShadow,
+
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -38,8 +40,7 @@ class StatsOverviewCard extends StatelessWidget {
           Text(
             'Stats Overview',
             style: AppTextStyles.sectionTitle.copyWith(
-              color: Colors.white,
-              fontSize: 16,
+              color: AppColors.kSoftColor,
             ),
           ),
           const SizedBox(height: 16),
@@ -82,12 +83,12 @@ class StatsOverviewCard extends StatelessWidget {
   }) {
     return Column(
       children: [
-        Icon(icon, color: Colors.white, size: 22),
+        Icon(icon, color: AppColors.kSoftColor, size: 22),
         const SizedBox(height: 6),
         Text(
           value,
           style: AppTextStyles.headline.copyWith(
-            color: Colors.white,
+            color: AppColors.kSoftColor,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
@@ -96,7 +97,7 @@ class StatsOverviewCard extends StatelessWidget {
         Text(
           label,
           style: AppTextStyles.caption.copyWith(
-            color: Colors.white.withOpacity(0.85),
+            color: AppColors.kSoftColor.withOpacity(0.85),
             fontSize: 11,
           ),
           textAlign: TextAlign.center,

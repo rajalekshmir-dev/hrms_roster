@@ -5,7 +5,6 @@ import 'package:hrms_roster/core/widgets/reusable_sections.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_bloc.dart';
 import 'package:hrms_roster/features/login/presentation/bloc/auth_state.dart';
 import 'package:hrms_roster/features/hrms_shell/presentation/hrms_shell.dart';
-
 import '../../../../core/constant/colors.dart';
 
 class LoginPage extends StatelessWidget {
@@ -51,11 +50,6 @@ class LoginView extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
 
-                // Welcome Section
-                // const WelcomeSection(
-                //   title: 'Welcome Back!',
-                //   subtitle: 'Please enter your details',
-                // ),
                 Center(
                   child: Image.asset(
                     "assets/images/human_resources_icon.png",
