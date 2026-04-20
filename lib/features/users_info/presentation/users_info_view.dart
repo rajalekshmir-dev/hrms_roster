@@ -16,12 +16,19 @@ class UserInfoPage extends StatefulWidget {
 
 class _UserInfoPageState extends State<UserInfoPage> {
   final TextEditingController searchController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-
     context.read<UserInfoBloc>().add(FetchUserInfo());
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    searchController.dispose();
+    super.dispose();
   }
 
   void onSearch(String query) {
@@ -165,7 +172,10 @@ class _UserInfoPageState extends State<UserInfoPage> {
                             name: user.displayName ?? '',
                             id: user.employeeId ?? '',
                             designation: user.designation ?? '',
-                            skills: user.techGroup ?? '',
+                            skills: user.skillSet ?? '',
+                            onAddSkill: () {
+                              _showAddSkillDialog(user.employeeId ?? '');
+                            },
                           );
                         },
                       ),
@@ -183,6 +193,41 @@ class _UserInfoPageState extends State<UserInfoPage> {
           ),
         ),
       ],
+    );
+  }
+
+  void _showAddSkillDialog(String employeeId) {
+    final TextEditingController skillController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Add Skill"),
+          content: TextField(
+            controller: skillController,
+            decoration: const InputDecoration(hintText: "Enter Skill"),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Cancel"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final skill = skillController.text.trim();
+
+                if (skill.isNotEmpty) {
+                  context.read<UserInfoBloc>().add(AddSkill(employeeId, skill));
+                }
+
+                Navigator.pop(context);
+              },
+              child: const Text("Add"),
+            ),
+          ],
+        );
+      },
     );
   }
 }

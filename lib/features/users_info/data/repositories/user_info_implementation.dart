@@ -8,6 +8,10 @@ class UserInfoRepositoryImpl implements UserInfoRepository {
   UserInfoRepositoryImpl({required this.remoteDataSource});
 
   @override
+  Future<void> addSkill(String employeeId, String skill) {
+    return remoteDataSource.addSkill(employeeId, skill);
+  }
+
   Future<UserInfoModel> getUserInfo() async {
     return await remoteDataSource.fetchUserInfo();
   }

@@ -5,7 +5,7 @@ abstract class UserInfoState {}
 class UserInfoLoading extends UserInfoState {}
 
 class UserInfoLoaded extends UserInfoState {
-  final List<User> users;
+  final List<Employeess> users;
 
   UserInfoLoaded(this.users);
 }

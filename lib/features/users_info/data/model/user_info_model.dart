@@ -1,108 +1,115 @@
-import 'package:equatable/equatable.dart';
+class UserInfoModel {
+  int? status;
+  int? totalEmployees;
+  List<Employeess>? employees;
 
-class UserInfoModel extends Equatable {
-  UserInfoModel({required this.status, required this.employees});
-
-  final String? status;
-  final List<User> employees;
-
-  UserInfoModel copyWith({String? status, List<User>? employees}) {
-    return UserInfoModel(
-      status: status ?? this.status,
-      employees: employees ?? this.employees,
-    );
-  }
+  UserInfoModel({this.status, this.totalEmployees, this.employees});
 
   factory UserInfoModel.fromJson(Map<String, dynamic> json) {
     return UserInfoModel(
-      status: json["status"],
-      employees: json["employees"] == null
-          ? []
-          : List<User>.from(json["employees"]!.map((x) => User.fromJson(x))),
+      status: json['status'],
+      totalEmployees: json['total_employees'],
+      employees: (json['employees'] as List?)
+          ?.map((e) => Employeess.fromJson(e))
+          .toList(),
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    "status": status,
-    "employees": employees.map((x) => x?.toJson()).toList(),
-  };
-
-  @override
-  String toString() {
-    return "$status, $employees, ";
+  Map<String, dynamic> toJson() {
+    return {
+      "status": status,
+      "total_employees": totalEmployees,
+      "employees": employees?.map((e) => e.toJson()).toList(),
+    };
   }
-
-  @override
-  List<Object?> get props => [status, employees];
 }
 
-class User extends Equatable {
-  User({
-    required this.employeeId,
-    required this.displayName,
-    required this.employeeDepartment,
-    required this.designation,
-    required this.techGroup,
-    required this.empLocation,
+class Employeess {
+  String? employeeId;
+  String? displayName;
+  String? designation;
+  String? skillSet;
+  String? empLocation;
+  String? totalExp;
+  String? vvdnExp;
+  List<Project>? projects;
+
+  Employeess({
+    this.employeeId,
+    this.displayName,
+    this.designation,
+    this.skillSet,
+    this.empLocation,
+    this.totalExp,
+    this.vvdnExp,
+    this.projects,
   });
 
-  final String? employeeId;
-  final String? displayName;
-  final String? employeeDepartment;
-  final String? designation;
-  final String? techGroup;
-  final String? empLocation;
-
-  User copyWith({
-    String? employeeId,
-    String? displayName,
-    String? employeeDepartment,
-    String? designation,
-    String? techGroup,
-    String? empLocation,
-  }) {
-    return User(
-      employeeId: employeeId ?? this.employeeId,
-      displayName: displayName ?? this.displayName,
-      employeeDepartment: employeeDepartment ?? this.employeeDepartment,
-      designation: designation ?? this.designation,
-      techGroup: techGroup ?? this.techGroup,
-      empLocation: empLocation ?? this.empLocation,
+  factory Employeess.fromJson(Map<String, dynamic> json) {
+    return Employeess(
+      employeeId: json['employee_id'],
+      displayName: json['display_name'],
+      designation: json['designation'],
+      skillSet: json['skill_set'],
+      empLocation: json['emp_location'],
+      totalExp: json['total_exp'],
+      vvdnExp: json['vvdn_exp'],
+      projects: (json['projects'] as List?)
+          ?.map((e) => Project.fromJson(e))
+          .toList(),
     );
   }
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      employeeId: json["employee_id"],
-      displayName: json["display_name"],
-      employeeDepartment: json["employee_department"],
-      designation: json["designation"],
-      techGroup: json["tech_group"],
-      empLocation: json["emp_location"],
+  Map<String, dynamic> toJson() {
+    return {
+      "employee_id": employeeId,
+      "display_name": displayName,
+      "designation": designation,
+      "skill_set": skillSet,
+      "emp_location": empLocation,
+      "total_exp": totalExp,
+      "vvdn_exp": vvdnExp,
+      "projects": projects?.map((e) => e.toJson()).toList(),
+    };
+  }
+}
+
+class Project {
+  String? pm;
+  String? role;
+  String? customer;
+  int? occupancy;
+  String? projectName;
+  String? projectStatus;
+
+  Project({
+    this.pm,
+    this.role,
+    this.customer,
+    this.occupancy,
+    this.projectName,
+    this.projectStatus,
+  });
+
+  factory Project.fromJson(Map<String, dynamic> json) {
+    return Project(
+      pm: json['pm'],
+      role: json['role'],
+      customer: json['customer'],
+      occupancy: json['occupancy'],
+      projectName: json['project_name'],
+      projectStatus: json['project_status'],
     );
   }
 
-  Map<String, dynamic> toJson() => {
-    "employee_id": employeeId,
-    "display_name": displayName,
-    "employee_department": employeeDepartment,
-    "designation": designation,
-    "tech_group": techGroup,
-    "emp_location": empLocation,
-  };
-
-  @override
-  String toString() {
-    return "$employeeId, $displayName, $employeeDepartment, $designation, $techGroup, $empLocation, ";
+  Map<String, dynamic> toJson() {
+    return {
+      "pm": pm,
+      "role": role,
+      "customer": customer,
+      "occupancy": occupancy,
+      "project_name": projectName,
+      "project_status": projectStatus,
+    };
   }
-
-  @override
-  List<Object?> get props => [
-    employeeId,
-    displayName,
-    employeeDepartment,
-    designation,
-    techGroup,
-    empLocation,
-  ];
 }

@@ -7,3 +7,10 @@ class SearchUsers extends UserInfoEvent {
 
   SearchUsers(this.query);
 }
+
+class AddSkill extends UserInfoEvent {
+  final String employeeId;
+  final String skill;
+
+  AddSkill(this.employeeId, this.skill);
+}
