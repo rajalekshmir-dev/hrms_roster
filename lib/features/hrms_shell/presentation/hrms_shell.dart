@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/widgets/HRMSAppBar.dart';
 import '../../../core/widgets/hrms_bottom_nav_bar.dart';
 import '../../Home/presentation/pages/Home_page.dart';
+import '../../ai_resource_suggestion/presentation/view/ai_resource_suggestion.dart';
+import '../../ai_resource_suggestion/presentation/view/widgets/ai_resource_suggestion.dart';
 import '../../search_info/presentation/bloc/search_bloc.dart';
 import '../../search_info/presentation/bloc/search_event.dart';
 import '../../search_info/presentation/bloc/search_state.dart';
@@ -18,7 +20,12 @@ class HRMSShell extends StatelessWidget {
 
   final TextEditingController searchController = TextEditingController();
 
-  final pages = [HomePage(), UserInfoPage(), SearchAiQueryData()];
+  final pages = [
+    HomePage(),
+    UserInfoPage(),
+    SearchAiQueryData(),
+    RequirementListSection(),
+  ];
 
   @override
   Widget build(BuildContext context) {

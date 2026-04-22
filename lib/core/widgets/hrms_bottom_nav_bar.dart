@@ -47,6 +47,7 @@ class HRMSBottomNavBar extends StatelessWidget {
             Icons.insert_chart,
             "Schedule",
           ),
+          _navItem(context, 3, Icons.ten_mp_sharp, Icons.insert_chart, "ai"),
         ],
       ),
     );
